@@ -66,7 +66,8 @@ void MapWidgetContainer::UpdateUAVState(internals::PointLatLng pos,double direct
     if(!currentUAV)
         currentUAV=m_mapWidget->AddUAV(0x001);
 
-    currentUAV->SetUAVHeading(direction);
+
+    currentUAV->SetUAVHeading(direction+ZYGroundGlobalConfig::m_YawAngle);
     /*********偏移逻辑**************/
 //    pos.SetLat(pos.lat+ZYGroundGlobalConfig::offset_lat);
 //    pos.SetLng(pos.lng+ZYGroundGlobalConfig::offset_lon);

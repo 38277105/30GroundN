@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include "./Utils/zygroundglobalconfig.h"
+#include "./../controllers/frmmaincontroller.h"
 
 StatusMonitor::StatusMonitor(QWidget *parent) :
     QWidget(parent),
@@ -35,10 +36,15 @@ StatusMonitor::StatusMonitor(QWidget *parent) :
     ui->horizontalLayout_9->removeItem(ui->verticalSpacer_29);
     ui->horizontalLayout_9->removeItem(ui->verticalSpacer_30);
     ui->line_15->hide();
+
+    connect(&m_timeAdd,SIGNAL(timeout()),this,SLOT(TimeAddSlot()));
+    m_timeAdd.start(1000);
+    m_tmCount=0;
 }
 
 StatusMonitor::~StatusMonitor()
 {
+    m_timeAdd.stop();
     delete ui;
 }
 
@@ -86,9 +92,9 @@ void StatusMonitor::setStatus(VehicleState _state)
     this->ui->ll_Hspeed->setLabelText(QString::number(_state.groundspeed, 'f', 2) + "m/s");
     this->ui->ll_Vspeed->setLabelText(QString::number(_state.climb, 'f', 2) + "m/s");
 
-    this->ui->widget_throttle->set_angle(_state.throttle);
+    //this->ui->widget_throttle->set_angle(_state.throttle);
 
-    this->ui->widget_heading->set_angle(_state.yaw);
+    //this->ui->widget_heading->set_angle(_state.yaw);
 
     this->ui->lbl_ESC_A_value->setLabelText(QString::fromLocal8Bit("%1").arg(_state.ESC_Current[0]));
     this->ui->lbl_ESC_B_value->setLabelText(QString::fromLocal8Bit("%1").arg(_state.ESC_Current[1]));
@@ -140,18 +146,39 @@ void StatusMonitor::setMonitor()
     m_PA_ESC_K.setAlarmConfig(tmpConfig,ui->lbl_ESC_K_desc);
     m_PA_ESC_L.setAlarmConfig(tmpConfig,ui->lbl_ESC_L_desc);
 
+    tmpConfig.minValue=600;
+    tmpConfig.maxValue=60000;
+    m_PA_RotorRemainTime.setAlarmConfig(tmpConfig,ui->label_rotorremaintime_value);
+    m_PA_MotorRemainTime.setAlarmConfig(tmpConfig,ui->label_motorremaintime_value);
+    m_PA_EleDebugRemainTime.setAlarmConfig(tmpConfig,ui->label_eledebugremaintime_value);
+    m_PA_BatteryRemainTime.setAlarmConfig(tmpConfig,ui->label_batteryremaintime_value);
+
 }
 
-void StatusMonitor::timerSlot(){
-    VehicleState _state;
-    if(m_td > 120)
-        m_td = 0;
-    //_state.MainVoltage = m_td++;
-//    _state.BatteryVoltage = m_td++;
-//    _state.Motor_Tmp[0] = m_td++;
-    //_state.ESC_Current[0] = m_td++;
-    qDebug() << "m_td: " <<m_td;
-    setStatus(_state);
+void StatusMonitor::TimeAddSlot()
+{
+    Vehicle*  pVeh=FrmMainController::Instance()->__vehicle;
+    if(!pVeh)
+        return;
+    if(pVeh->mavLinkMessageInterface.getArmedState()) //飞机已经解锁
+    {
+        m_tmCount++;
+        if(m_tmCount%60==0)  //一分钟
+        {
+            //ZYGroundGlobalConfig::m_xuanyi_outtime--;
+            ZYGroundGlobalConfig::SubOutTime();
+
+            //旋翼，电机，电调，电池剩余时间字体显示,飞行时长显示
+            m_PA_RotorRemainTime.checkValue(ZYGroundGlobalConfig::m_RotorRemainTime);
+            this->ui->label_rotorremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_RotorRemainTime));
+            m_PA_MotorRemainTime.checkValue(ZYGroundGlobalConfig::m_MotorRemainTime);
+            this->ui->label_motorremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_MotorRemainTime));
+            m_PA_EleDebugRemainTime.checkValue(ZYGroundGlobalConfig::m_EleDebugRemainTime);
+            this->ui->label_eledebugremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_EleDebugRemainTime));
+            m_PA_BatteryRemainTime.checkValue(ZYGroundGlobalConfig::m_BatteryRemainTime);
+            this->ui->label_batteryremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_BatteryRemainTime));
+        }
+    }
 }
 
 void StatusMonitor::tipMessageBox(const QString& title, const QString& content){
@@ -187,8 +214,8 @@ void StatusMonitor::setFlightMode(QString strText)
 
 void StatusMonitor::setScale(float scale)
 {
-   ui->widget_heading->set_scale(scale);
-   ui->widget_throttle->set_scale(scale);
+   //ui->widget_heading->set_scale(scale);
+   //ui->widget_throttle->set_scale(scale);
 }
 
 void StatusMonitor::reshapeLabel()
@@ -357,6 +384,33 @@ void StatusMonitor::reshapeLabel()
    this->ui->lbl_Vspeed_desc->setStyleSheet(strStyle);
    this->ui->ll_Vspeed->setImage(":/image/control/control_04.png");
    this->ui->ll_Vspeed->setFontSize(fontsize);
+
+   //新加label电机，旋翼，电调，备降电池
+   this->ui->label_rotorremaintime_desc->setStyleSheet(strStyle);
+   this->ui->label_rotorremaintime_value->setImage(":/image/control/control_04.png");
+   this->ui->label_rotorremaintime_value->setFontSize(fontsize);
+
+   this->ui->label_motorremaintime_desc->setStyleSheet(strStyle);
+   this->ui->label_motorremaintime_value->setImage(":/image/control/control_04.png");
+   this->ui->label_motorremaintime_value->setFontSize(fontsize);
+
+   this->ui->label_batteryremaintime_desc->setStyleSheet(strStyle);
+   this->ui->label_batteryremaintime_value->setImage(":/image/control/control_04.png");
+   this->ui->label_batteryremaintime_value->setFontSize(fontsize);
+
+   this->ui->label_eledebugremaintime_desc->setStyleSheet(strStyle);
+   this->ui->label_eledebugremaintime_value->setImage(":/image/control/control_04.png");
+   this->ui->label_eledebugremaintime_value->setFontSize(fontsize);
+
+   m_PA_RotorRemainTime.checkValue(ZYGroundGlobalConfig::m_RotorRemainTime);
+   this->ui->label_rotorremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_RotorRemainTime));
+   m_PA_MotorRemainTime.checkValue(ZYGroundGlobalConfig::m_MotorRemainTime);
+   this->ui->label_motorremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_MotorRemainTime));
+   m_PA_EleDebugRemainTime.checkValue(ZYGroundGlobalConfig::m_EleDebugRemainTime);
+   this->ui->label_eledebugremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_EleDebugRemainTime));
+   m_PA_BatteryRemainTime.checkValue(ZYGroundGlobalConfig::m_BatteryRemainTime);
+   this->ui->label_batteryremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_BatteryRemainTime));
+
 
 }
 

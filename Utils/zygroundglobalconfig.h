@@ -14,6 +14,7 @@ public:
     static bool m_SerialIsOpen;
 
     static void LoadConfig();
+    static void SubOutTime();
 public:
     static double offset_lat;
     static double offset_lon;
@@ -32,6 +33,18 @@ public:
     static bool    m_bUsedSlavePort;
     static QString m_sSlavePortName;
     static int     m_sSlaveBaudRate;
+    //旋翼剩余时间，电调剩余，电机剩余，电池剩余
+   //旋翼剩余时长
+    static int     m_RotorRemainTime;
+   //电调剩余时长
+    static int     m_EleDebugRemainTime;
+   //电池剩余时长
+    static int     m_BatteryRemainTime;
+    //电机剩余时长
+    static  int    m_MotorRemainTime;
+    //偏航角
+    static float m_YawAngle;
+
 signals:
 
 public slots:

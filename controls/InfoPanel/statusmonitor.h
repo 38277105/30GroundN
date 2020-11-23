@@ -26,7 +26,7 @@ private:
     void setMonitor();
     void tipMessageBox(const QString& title, const QString& content);
 public slots:
-    void timerSlot();
+    void TimeAddSlot();
 private slots:
     void on_btn_set_bakVolt_coefficient_clicked();
 
@@ -48,8 +48,16 @@ private:
     PowerAlarm   m_PA_ESC_J;
     PowerAlarm   m_PA_ESC_K;
     PowerAlarm   m_PA_ESC_L;
-    QTimer      m_test;
-    float       m_td;
+    //旋翼
+    PowerAlarm   m_PA_RotorRemainTime;
+    //电机
+    PowerAlarm   m_PA_MotorRemainTime;
+    //电调
+    PowerAlarm   m_PA_EleDebugRemainTime;
+    //电池
+    PowerAlarm   m_PA_BatteryRemainTime;
+    QTimer       m_timeAdd;
+    int          m_tmCount;
     int         m_bakVolt_coefficient;
 };
 

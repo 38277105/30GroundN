@@ -24,6 +24,11 @@ QString ZYGroundGlobalConfig::m_sSlavePortName="COM3";
 int     ZYGroundGlobalConfig::m_sSlaveBaudRate=115200;
 QString ZYGroundGlobalConfig::m_sMainPortName="COM4";
 int     ZYGroundGlobalConfig::m_sMainBaudRate=115200;
+int     ZYGroundGlobalConfig::m_RotorRemainTime = 200;
+int     ZYGroundGlobalConfig::m_EleDebugRemainTime = 200;
+int     ZYGroundGlobalConfig::m_BatteryRemainTime = 0;
+int     ZYGroundGlobalConfig::m_MotorRemainTime = 200;
+float   ZYGroundGlobalConfig::m_YawAngle = 0;
 bool   g_bWriteLog=true;
 bool   g_bDevelopMode=true;
 QTimer*   g_FlushFileTimer;
@@ -125,6 +130,25 @@ void ZYGroundGlobalConfig::LoadConfig()
     }
     else
         m_bUsedSlavePort=false;
+    //新加的旋翼剩余，电机剩余，电池剩余，电调剩余
+    tmpElem = root.firstChildElement("remaintime");
+    if(tmpElem.isElement())
+    {
+        m_RotorRemainTime=tmpElem.attribute("rotor",QString::number(m_RotorRemainTime)).toInt();
+        m_EleDebugRemainTime=tmpElem.attribute("eledebug",QString::number(m_EleDebugRemainTime)).toInt();
+        m_BatteryRemainTime=tmpElem.attribute("battery",QString::number(m_BatteryRemainTime)).toInt();
+        m_MotorRemainTime=tmpElem.attribute("motor",QString::number(m_MotorRemainTime)).toInt();
+        qDebug()<<"rotor_remaintime"<< m_RotorRemainTime
+       << "eledebug_remaintime"<< m_EleDebugRemainTime
+       << "battery_remaintime"<< m_BatteryRemainTime
+       << "motor_remaintime"<< m_MotorRemainTime;
+    }
+    //偏航角
+    tmpElem = root.firstChildElement("pianhangyaw");
+    m_YawAngle = tmpElem.text().toFloat();
+     qDebug()<<"pianhangyaw"<< m_YawAngle;
+
+    // SubOutTime();
 }
 
 
@@ -164,5 +188,48 @@ void __writelog(bool isReceived,char* buffer,qint32 length)
         else
             qDebug()<<"Send File Not Open";
     }
+}
+void ZYGroundGlobalConfig::SubOutTime(){
+    m_RotorRemainTime--;
+    m_EleDebugRemainTime--;
+    m_BatteryRemainTime--;
+    m_MotorRemainTime--;
+
+    QFile file("./data/zy_config.xml");
+    if(!file.open(QFile::ReadOnly))
+        return;
+
+    QTextStream vReadStream(&file);
+    QTextCodec *vCodec = QTextCodec::codecForName("GBK");
+    vReadStream.setCodec(vCodec);
+    QString vXmlDataStr = vReadStream.readAll();
+    file.close();
+
+
+    QDomDocument document;
+    if(!document.setContent(vXmlDataStr.toLocal8Bit()))
+        return;
+    if(document.isNull())
+        return;
+
+
+    QDomElement root = document.documentElement();
+    QDomElement n = root.firstChildElement("remaintime");
+    if(n.isNull())
+    {
+        n = document.createElement("remaintime");
+        root.appendChild(n);
+    }
+    n.setAttribute("rotor",m_RotorRemainTime);
+    n.setAttribute("eledebug",m_EleDebugRemainTime);
+    n.setAttribute("battery",m_BatteryRemainTime);
+    n.setAttribute("motor",m_MotorRemainTime);
+    if(!file.open(QFile::WriteOnly|QFile::Truncate))
+        return;
+
+     QTextStream out_stream(&file);
+     out_stream.setCodec(vCodec);
+     document.save(out_stream,4);
+     file.close();
 }
 

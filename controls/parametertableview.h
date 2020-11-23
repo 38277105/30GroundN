@@ -1,4 +1,4 @@
-#ifndef PARAMETERTABLEVIEW_H
+﻿#ifndef PARAMETERTABLEVIEW_H
 #define PARAMETERTABLEVIEW_H
 
 #include <QObject>
@@ -27,7 +27,6 @@ public slots:
 public:
      QStandardItemModel* dataModel;
      QList<ParamData>* m_datalist;
-     QDesktopWidget m_destopWidget;
 };
 
 #endif // SENSORTABLEVIEW_H

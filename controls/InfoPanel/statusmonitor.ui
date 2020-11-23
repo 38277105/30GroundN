@@ -2072,69 +2072,80 @@ border-radius:15px;}</string>
         </property>
         <layout class="QGridLayout" name="gridLayout">
          <item row="0" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="0,1">
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
            <item>
-            <widget class="SPDWidget" name="widget_throttle" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>112</width>
-               <height>112</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>160</width>
-               <height>160</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::LeftToRight</enum>
-             </property>
+            <widget class="QLabel" name="label_rotorremaintime_desc">
              <property name="styleSheet">
-              <string notr="true">image: url(:/image/instrument.png);
-background-color: rgb(125, 125, 125);
-</string>
+              <string notr="true">font: 15pt &quot;黑体&quot;;
+color: rgb(233, 233, 233);
+background-color: rgb(125, 125, 125);</string>
+             </property>
+             <property name="text">
+              <string>旋翼剩余时长</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="indent">
+              <number>5</number>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="HeadingWidget" name="widget_heading" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>112</width>
-               <height>112</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>160</width>
-               <height>160</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::RightToLeft</enum>
-             </property>
+            <widget class="QImageLabel" name="label_rotorremaintime_value">
              <property name="styleSheet">
-              <string notr="true">image: url(:/image/compass.png);
+              <string notr="true">background-color: rgb(125, 125, 125);
+font: 15pt &quot;黑体&quot;;
+color: rgb(233, 233, 233);</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="Line" name="line_17">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_eledebugremaintime_desc">
+             <property name="styleSheet">
+              <string notr="true">font: 15pt &quot;黑体&quot;;
+color: rgb(233, 233, 233);
 background-color: rgb(125, 125, 125);</string>
+             </property>
+             <property name="text">
+              <string>电调剩余时长</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="indent">
+              <number>5</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QImageLabel" name="label_eledebugremaintime_value">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(125, 125, 125);
+font: 15pt &quot;黑体&quot;;
+color: rgb(233, 233, 233);</string>
+             </property>
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="1" column="0">
+         <item row="3" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="Line" name="line_24">
@@ -3054,6 +3065,84 @@ color: rgb(233, 233, 233);</string>
            </item>
           </layout>
          </item>
+         <item row="2" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_18">
+           <item>
+            <widget class="QLabel" name="label_motorremaintime_desc">
+             <property name="styleSheet">
+              <string notr="true">font: 15pt &quot;黑体&quot;;
+color: rgb(233, 233, 233);
+background-color: rgb(125, 125, 125);</string>
+             </property>
+             <property name="text">
+              <string>电机剩余时长</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QImageLabel" name="label_motorremaintime_value">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(125, 125, 125);
+font: 15pt &quot;黑体&quot;;
+color: rgb(233, 233, 233);</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="Line" name="line_31">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_batteryremaintime_desc">
+             <property name="styleSheet">
+              <string notr="true">font: 15pt &quot;黑体&quot;;
+color: rgb(233, 233, 233);
+background-color: rgb(125, 125, 125);</string>
+             </property>
+             <property name="text">
+              <string>电池剩余时长</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QImageLabel" name="label_batteryremaintime_value">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(125, 125, 125);
+font: 15pt &quot;黑体&quot;;
+color: rgb(233, 233, 233);</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0">
+          <widget class="Line" name="line_32">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -3080,18 +3169,6 @@ color: rgb(233, 233, 233);</string>
    <class>QImageLabel</class>
    <extends>QLabel</extends>
    <header location="global">./Utils/qimagelabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>SPDWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">./Utils/spdwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>HeadingWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">./Utils/headingwidget.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

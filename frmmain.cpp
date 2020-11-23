@@ -73,7 +73,8 @@ frmMain::frmMain(QWidget *parent) :
     }
     ui->setupUi(this);
 
-    setFixedSize(m_destopWidget.width(),m_destopWidget.height());
+    m_WinRect=myHelper::GetWinRect(this);
+    setGeometry(m_WinRect);
 
     m_flightdisplay=NULL;
     m_datapview=NULL;
@@ -91,7 +92,7 @@ frmMain::frmMain(QWidget *parent) :
     //加载配置文件 gyq add
     ZYGroundGlobalConfig::LoadConfig();
 
-    myHelper::FormInCenter(this);
+   // myHelper::FormInCenter(this);
 
     //this->InitFlightMode();
 
@@ -531,19 +532,20 @@ void frmMain::LoadLayout()
 
     double ScaleFactor=1;
 
-    if(m_destopWidget.width()==1920)
+
+    if(m_WinRect.width()==1920)
     {
         ScaleFactor=1;
         ZYGroundGlobalConfig::RESOLUTION_1920=true;
     }
-    else if(m_destopWidget.width()<=1367)
+    else if(m_WinRect.width()<=1367)
     {
         ScaleFactor=0.7;
         ZYGroundGlobalConfig::RESOLUTION_1920=false;
     }
 
     m_datapview = new DataParameterView(this);
-    m_datapview->setFixedWidth(m_destopWidget.width() - 2*(650*ScaleFactor) - 120);
+    m_datapview->setFixedWidth(m_WinRect.width() - 2*(650*ScaleFactor) - 120);
     if(ZYGroundGlobalConfig::RESOLUTION_1920==false)
     {
 
@@ -596,7 +598,7 @@ void frmMain::LoadLayout()
 
     m_statusMonitor=new StatusMonitor();
     m_statusMonitor->setMinimumHeight(140);
-    m_statusMonitor->setFixedSize(2*(650*ScaleFactor) + 60,m_destopWidget.height()-450*ScaleFactor - 100);
+    m_statusMonitor->setFixedSize(2*(650*ScaleFactor) + 60,m_WinRect.height()-450*ScaleFactor - 100);
     m_statusMonitor->setScale(ScaleFactor);
     QVBoxLayout* lft_panel=new QVBoxLayout();
     left_top_layout->addWidget(m_mapcontrol->GetWindow());

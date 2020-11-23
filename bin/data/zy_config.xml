@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="GBK"?>
+<?xml version='1.0' encoding='GBK'?>
 <Ground>
-	<!--Enabled启用,DisEnable禁用-->
-	<RequestParam>DisEnable</RequestParam>
-	<WriteLog>DisEnable</WriteLog>
-	<DevelopMode>Enabled</DevelopMode>
-	<Title>卓翼地面站T</Title>
-	<!--路径是相对exe,并只能用/,png或ico文件且大小为32*32或24*24或16*16-->
-	<Icon>/data/zy.png</Icon>
-	<JoyStick Name="COM2"/>
-	<MainPort Name="COM5" BaudRate="115200"/>
+    <!--Enabled启用,DisEnable禁用-->
+    <RequestParam>DisEnable</RequestParam>
+    <WriteLog>DisEnable</WriteLog>
+    <DevelopMode>Enabled</DevelopMode>
+    <Title>卓翼地面站T</Title>
+    <!--路径是相对exe,并只能用/,png或ico文件且大小为32*32或24*24或16*16-->
+    <Icon>/data/zy.png</Icon>
+    <JoyStick Name="COM2"/>
+    <MainPort Name="COM5" BaudRate="115200"/>
+    <remaintime eledebug="6589" motor="5389" rotor="5989" battery="5389"/>
+    <pianhangyaw>54.5</pianhangyaw>
 </Ground>

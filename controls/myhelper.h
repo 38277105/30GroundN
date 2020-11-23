@@ -6,6 +6,7 @@
 #include <QDesktopWidget>
 #include "frmmessagebox.h"
 #include <QGuiApplication>
+#include <QApplication>
 
 class myHelper: public QObject
 {
@@ -95,16 +96,23 @@ public:
         }
     }
 
+    static QRect GetWinRect(QWidget* pWidget)
+    {
+        QDesktopWidget* pDeskTop = QApplication::desktop();
+        //int CurId=pDeskTop->screenNumber(pWidget);
+        int CurId=1;
+        if(pDeskTop->screenCount()==1)
+            CurId=0;
+        return pDeskTop->screenGeometry(CurId);
+    }
     //窗体居中显示
     static void FormInCenter(QWidget *frm)
     {
         int frmX = frm->width();
         int frmY = frm->height();
-        QDesktopWidget w;
-        int deskWidth = w.width();
-        int deskHeight = w.height();
-        QPoint movePoint(deskWidth / 2 - frmX / 2, deskHeight / 2 - frmY / 2);
-        frm->move(movePoint);
+        QRect rc=GetWinRect(frm);
+        QPoint movePoint(frmX / 2, frmY / 2);
+        frm->move(rc.center()-movePoint);
     }
 };
 

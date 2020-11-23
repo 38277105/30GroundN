@@ -196,7 +196,7 @@ private:
 
      ShowCurrentWayPoints* m_newSC;
 
-     QDesktopWidget m_destopWidget;
+     QRect m_WinRect;
 
 
      //初始化样式
