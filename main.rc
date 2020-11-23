@@ -1,0 +1,33 @@
+#include "winver.h"
+
+IDI_ICON1       ICON      "image/bg/zhuoyi.ico"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION    1,3,0,0
+ PRODUCTVERSION 2,7,0,0
+ FILEFLAGS      0x0L
+ FILEFLAGSMASK  0x3fL
+ FILEOS         VOS_NT_WINDOWS32
+ FILETYPE       VFT_APP
+ FILESUBTYPE    VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "CompanyName", "jiwei0228@163.com"
+            VALUE "FileDescription", "ZYGroundApp"
+            VALUE "FileVersion", "1, 0, 0, 0\0"
+            VALUE "LegalCopyright", "jiwei0228@163.com"
+            VALUE "InternalName", "ZYGroundApp"
+            VALUE "OriginalFilename", "ZYGroundApp"
+            VALUE "ProductName", "ZYGroundApp"
+            VALUE "ProductVersion", "2, 6, 0, 0\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+

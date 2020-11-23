@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/markers">
+        <file>images/bigMarkerGreen.png</file>
+        <file>images/marker.png</file>
+        <file>images/airplane.svg</file>
+        <file>images/home.png</file>
+        <file>images/home.svg</file>
+        <file>images/home2.svg</file>
+        <file>images/airplanepip.png</file>
+        <file>images/EasystarBlue.png</file>
+        <file>images/mapquad.png</file>
+        <file>images/dragons1.jpg</file>
+        <file>images/dragons2.jpeg</file>
+        <file>images/compas.svg</file>
+        <file>images/splash.jpg</file>
+        <file>images/zoomUp.png</file>
+        <file>images/zoomDown.png</file>
+        <file>images/down.png</file>
+        <file>images/up.png</file>
+    </qresource>
+    <qresource prefix="/uavs">
+        <file>images/airplanepip.png</file>
+        <file>images/EasystarBlue.png</file>
+        <file>images/mapquad.png</file>
+        <file>images/airplane_new.png</file>
+    </qresource>
+</RCC>

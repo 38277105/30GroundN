@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Parameters>
+    <SettingItem Value="1000.000000" IsVisible="True" Name="CIRCLE_RADIUS" ZhName="圆弧半径" Type="9" Desc="盘旋模式下，圆形盘旋区域的半径。 默认 = 10" Count="252"/>
+    <SettingItem Value="20.000000" IsVisible="True" Name="CIRCLE_RATE" ZhName="转角速率" Type="9" Desc="盘旋模式下转弯的角速度（°/s），正值表示顺时针转动，负值表示逆时针转动" Count="252"/>
+    <SettingItem Value="0.000000" IsVisible="True" Name="FLTMODE1" ZhName="飞行模式 1" Type="2" Desc="当5通道pwm小于1230时启用此飞行模式。 默认 = 自稳模式,0:增稳,2：定高,3：自动（航路）,5：悬停,6：返航,8：定点,9：着陆" Count="252"/>
+    <SettingItem Value="0.000000" IsVisible="True" Name="FLTMODE2" ZhName="飞行模式 2" Type="2" Desc="当5通道pwm 大于1230， 小于等于1360时启用此飞行模式。 默认 = 自稳模式,0:增稳,2：定高,3：自动（航路）,5：悬停,6：返航,8：定点,9：着陆" Count="252"/>
+    <SettingItem Value="0.000000" IsVisible="True" Name="FLTMODE3" ZhName="飞行模式 3" Type="2" Desc="当5通道pwm 大于1360， 小于等于11490时启用此飞行模式。 默认 = 自稳模式,0:增稳,2：定高,3：自动（航路）,5：悬停,6：返航,8：定点,9：着陆" Count="252"/>
+    <SettingItem Value="0.000000" IsVisible="True" Name="FLTMODE4" ZhName="飞行模式 4" Type="2" Desc="当5通道pwm 大于1490， 小于等于1620时启用此飞行模式。 默认 = 自稳模式,0:增稳,2：定高,3：自动（航路）,5：悬停,6：返航,8：定点,9：着陆" Count="252"/>
+    <SettingItem Value="0.000000" IsVisible="True" Name="FLTMODE5" ZhName="飞行模式 5" Type="2" Desc="当5通道pwm 大于1620， 小于等于1749时启用此飞行模式。 默认 = 自稳模式,0:增稳,2：定高,3：自动（航路）,5：悬停,6：返航,8：定点,9：着陆" Count="252"/>
+    <SettingItem Value="6.000000" IsVisible="True" Name="FLTMODE6" ZhName="飞行模式 6" Type="2" Desc="当5通道pwm 小于1750时启用此飞行模式。 默认 = 自稳模式" Count="252"/>
+    <SettingItem Value="50.000000" IsVisible="True" Name="LAND_SPEED" ZhName="降落速度" Type="4" Desc="最终着陆阶段的下降速度（cm/s）。 默认 = 50" Count="252"/>
+    <SettingItem Value="250.000000" IsVisible="True" Name="PILOT_VELZ_MAX" ZhName="飞手最大垂直速度" Type="4" Desc="飞手可以请求的最大垂直速度（cm/s)。 默认 = 250。" Count="252"/>
+    <SettingItem Value="0.004000" IsVisible="True" Name="RATE_PIT_D" ZhName="俯仰轴速度控制器 D增益" Type="9" Desc="俯仰轴速度控制器D增益。 默认 = 0.004" Count="252"/>
+    <SettingItem Value="0.100000" IsVisible="True" Name="RATE_PIT_I" ZhName="Pitch轴速度控制器 I增益" Type="9" Desc="俯仰轴速度控制器I增益。默认 = 0.05" Count="252"/>
+    <SettingItem Value="2000.000000" IsVisible="True" Name="RATE_PIT_IMAX" ZhName="Pitch轴速度控制器 I增益最大值" Desc="Pitch轴速度控制器I增益最大值。默认 = 500" Count="252"/>
+    <SettingItem Value="0.150000" IsVisible="True" Name="RATE_PIT_P" ZhName="悬停经度变化比例控制器 P 增益" Type="9" Desc="0.08~0.2，将期望的俯仰比率与实际俯仰比率之间的差值转化为电机输出，默认值0.15" Count="252"/>
+    <SettingItem Value="0.004000" IsVisible="True" Name="RATE_RLL_D" ZhName="Roll轴比例控制器 D增益" Type="9" Desc="Roll轴变化比例控制器 D 增益。默认 = 0.004" Count="252"/>
+    <SettingItem Value="0.100000" IsVisible="True" Name="RATE_RLL_I" ZhName="Roll轴比例控制器 I增益" Type="9" Desc="Roll轴比例控制器 I增益。默认 = 0.05" Count="252"/>
+    <SettingItem Value="2000.000000" IsVisible="True" Name="RATE_RLL_IMAX" ZhName="Roll轴比例控制器 I 增益最大值" Type="9" Desc="Roll轴比例控制器 I 增益最大值。 默认 = 500" Count="252"/>
+    <SettingItem Value="0.150000" IsVisible="True" Name="RATE_RLL_P" ZhName="Roll轴比例控制器 P 增益" Type="9" Desc="0.08~0.2，将期望的横滚比率与实际横滚比率之间的差值转化为电机输出，默认值0.15" Count="252"/>
+    <SettingItem Value="0.000000" IsVisible="True" Name="RATE_YAW_D" ZhName="Yaw比例控制器 D 增益" Type="9" Desc="Yaw轴变化比例控制器 D 增益。 默认 = 0.00" Count="252"/>
+    <SettingItem Value="0.020000" IsVisible="True" Name="RATE_YAW_I" ZhName="Yaw轴比例控制器 I增益" Type="9" Desc="Yaw轴比例控制器 I增益。 默认 = 0.015" Count="252"/>
+    <SettingItem Value="1000.000000" IsVisible="True" Name="RATE_YAW_IMAX" ZhName="Yaw轴变化比例控制器 I 增益最大值" Type="9" Desc="Yaw轴变化比例控制器 I 增益最大值。 默认 = 800" Count="252"/>
+    <SettingItem Value="0.200000" IsVisible="True" Name="RATE_YAW_P" ZhName="Yaw轴比例控制器 P增益" Type="9" Desc="Yaw比例控制器 P增益。默认 = 0.2" Count="252"/>
+    <SettingItem Value="1500.000000" IsVisible="True" Name="RTL_ALT" ZhName="返航高度" Type="4" Desc="飞行器返航之前的最低高度，设置为0以当前高度返回。 默认 = 15.00" Count="252"/>
+    <SettingItem Value="0.000000" IsVisible="True" Name="RTL_ALT_FINAL" ZhName="最终返航高度" Type="4" Desc="在返航的最终阶段或是完成一个任务后，飞行器将会到达的高度，设置0为降落。 默认 = 2.0" Count="252"/>
+    <SettingItem Value="5000.000000" IsVisible="True" Name="RTL_LOIT_TIME" ZhName="返航悬停时间" Type="6" Desc="在最终下降之前在家的位置上方悬停的时间，以毫秒为单位。 默认 = 5000.00" Count="252"/>
+    <SettingItem Value="0.000000" IsVisible="True" Name="SUPER_SIMPLE" ZhName="启用超简单模式" Type="2" Desc="1 = 启用超简单模式 默认 = 0 = 禁用" Count="252"/>
+    <SettingItem Value="100.000000" IsVisible="True" Name="WPNAV_ACCEL" ZhName="航点加速度" Type="9" Desc="航路点飞行水平加速度（cm/s2）.默认 = 250" Count="252"/>
+    <SettingItem Value="500.000000" IsVisible="True" Name="WPNAV_LOIT_SPEED" ZhName="悬停水平最大速度" Type="9" Desc="悬停模式中，飞行器水平飞行的最大速度.默认 = 750" Count="252"/>
+    <SettingItem Value="500.000000" IsVisible="True" Name="WPNAV_SPEED" ZhName="目标航路点水平速度" Type="9" Desc="飞行器在航路点飞行任务中的水平速度（cm/s).默认 = 500" Count="252"/>
+    <SettingItem Value="150.000000" IsVisible="True" Name="WPNAV_SPEED_DN" ZhName="目标航路点下降速度" Type="9" Desc="飞行器在航路点飞行任务中的上升速度（cm/s).默认 = 500" Count="252"/>
+    <SettingItem Value="250.000000" IsVisible="True" Name="WPNAV_SPEED_UP" ZhName="目标航路点上升速度" Type="9" Desc="飞行器在航路点飞行任务中的下降速度（cm/s）.默认 = 250" Count="252"/>
+    <SettingItem Type="2" Name="RC_FEEL_RP" ZhName="横滚/俯仰的遥控器手感" Value="50.000000" Count="252" Desc="横滚/俯仰的遥控器手感决定了飞行器的响应程度，0：非常柔和, 25：柔和, 50：中等, 75：干脆,100：非常干脆, 默认值100" IsVisible="True"/>
+</Parameters>

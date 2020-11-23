@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK"?>
+<multilang>
+	<LanguageItem En="Initialising SYSTEM" Zh="正在初始化飞控系统"></LanguageItem>
+	<LanguageItem En="SYSTEM" Zh="飞控系统"></LanguageItem>
+	<LanguageItem En="Calibrating barometer" Zh="正在校准气压计"></LanguageItem>
+	<LanguageItem En="barometer calibration complete" Zh="气压计校准完成"></LanguageItem>
+	<LanguageItem En="GROUND START" Zh="地面站启动"></LanguageItem>
+	<LanguageItem En="PreArm: RC not calibrated" Zh="预警信息:遥控器没有校准"></LanguageItem>
+	<LanguageItem En="PreArm: Check mag field" Zh="预警信息:检查磁罗盘计字段"></LanguageItem>
+	<LanguageItem En="PreArm: Accelerometers not healthy" Zh="预警信息:加速度计不健康"></LanguageItem>
+	<LanguageItem En="PreArm: Waiting for Nav Checks" Zh="预警信息:等待导航检查"></LanguageItem>
+	<LanguageItem En="PreArm: inconsistent Accelerometers" Zh="预警信息:不一致的加速度计"></LanguageItem>
+	<LanguageItem En="PreArm: Compass not calibrated" Zh="预警信息:不一致的加速度计"></LanguageItem>
+	<LanguageItem En="PreArm: Compass offsets too high" Zh="预警信息:罗盘偏差太大"></LanguageItem>
+</multilang>

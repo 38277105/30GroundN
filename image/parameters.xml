@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Parameters>
+<SettingItem Name="Height" Value="100" Unit="meter" Desc="返航定高高度" IsChanged="0"></SettingItem>
+<SettingItem Name="Throttle Range" Value="25~100" Unit="meter" Desc="电池电量范围" IsChanged="0"></SettingItem>
+<SettingItem Name="Roll Factor" Value="100" Unit="meter" Desc="滚转系数" IsChanged="0"></SettingItem>
+<SettingItem Name="Yaw Factor" Value="100" Unit="meter" Desc="偏航系数" IsChanged="0"></SettingItem>
+<SettingItem Name="Pitch Factor" Value="100" Unit="meter" Desc="俯仰系数" IsChanged="0"></SettingItem>
+<SettingItem Name="Output Channel" Value="100" Unit="meter" Desc="输出通道" IsChanged="0"></SettingItem>
+<SettingItem Name="Rotate Angle" Value="100" Unit="meter" Desc="移动范围" IsChanged="0"></SettingItem>
+<SettingItem Name="Stablize" Value="100" Unit="meter" Desc="稳定模式" IsChanged="0"></SettingItem>
+<SettingItem Name="MaxRotateAngle" Value="100" Unit="meter" Desc="最大转动角度" IsChanged="0"></SettingItem>
+<SettingItem Name="MaxRotateSpeed" Value="100" Unit="meter" Desc="最大转动速率" IsChanged="0"></SettingItem>
+<SettingItem Name="AxisRotateThreshold" Value="100" Unit="meter" Desc="轴转向速率阈值" IsChanged="0"></SettingItem>
+<SettingItem Name="SSRRTime" Value="100" Unit="meter" Desc="稳定缓释响应时间" IsChanged="0"></SettingItem>
+<SettingItem Name="ServoFFA" Value="100" Unit="meter" Desc="舵机前馈加速度" IsChanged="0"></SettingItem>
+<SettingItem Name="FATC" Value="100" Unit="meter" Desc="前馈加速时间常量" IsChanged="0"></SettingItem>
+<SettingItem Name="FDTC" Value="100" Unit="meter" Desc="前馈减速时间常量" IsChanged="0"></SettingItem>
+<SettingItem Name="TiltType" Value="100" Unit="meter" Desc="云台类型" IsChanged="0"></SettingItem>
+<SettingItem Name="Throttle" Value="100" Unit="meter" Desc="电压" IsChanged="0"></SettingItem>
+<SettingItem Name="Roll" Value="100" Unit="meter" Desc="滚转" IsChanged="0"></SettingItem>
+<SettingItem Name="Pitch" Value="100" Unit="meter" Desc="俯仰" IsChanged="0"></SettingItem>
+<SettingItem Name="Yaw" Value="100" Unit="meter" Desc="偏航" IsChanged="0"></SettingItem>
+<SettingItem Name="FlightMode" Value="100" Unit="meter" Desc="飞行模式" IsChanged="0"></SettingItem>
+<SettingItem Name="Collective" Value="100" Unit="meter" Desc="公用模块" IsChanged="0"></SettingItem>
+<SettingItem Name="Accessory0" Value="100" Unit="meter" Desc="必要参数1" IsChanged="0"></SettingItem>
+<SettingItem Name="Accessory1" Value="100" Unit="meter" Desc="必要参数2" IsChanged="0"></SettingItem>
+<SettingItem Name="Accessory2" Value="100" Unit="meter" Desc="必要参数3" IsChanged="0"></SettingItem>
+<SettingItem Name="Accessory3" Value="100" Unit="meter" Desc="必要参数4" IsChanged="0"></SettingItem>
+</Parameters>
