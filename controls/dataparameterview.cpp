@@ -110,6 +110,8 @@ DataParameterView::DataParameterView(QWidget *parent) :
     this->ui->label_4->setImage(":/image/control/control_06.png");
     this->ui->label_4->setFontSize(14);
     this->ui->label_4->setLabelText(QStringLiteral("米"));
+
+    btn_follow->hide();//隐藏跟随按钮
 }
 
 DataParameterView::~DataParameterView()
