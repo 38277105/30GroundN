@@ -29,7 +29,7 @@ int     ZYGroundGlobalConfig::m_EleDebugRemainTime = 200;
 int     ZYGroundGlobalConfig::m_BatteryRemainTime = 0;
 int     ZYGroundGlobalConfig::m_MotorRemainTime = 200;
 float   ZYGroundGlobalConfig::m_YawAngle = 0;
-int     ZYGroundGlobalConfig::m_flytime = 0;
+int     ZYGroundGlobalConfig::m_flytime = 500*60;
 bool   g_bWriteLog=true;
 bool   g_bDevelopMode=true;
 QTimer*   g_FlushFileTimer;
@@ -47,6 +47,17 @@ bool g_bSetESC;
 
 void ZYGroundGlobalConfig::LoadConfig()
 {
+    QFile filetime("./data/flytime.fly");
+    if (filetime.open(QIODevice::ReadOnly))
+    {
+        QDataStream in(&filetime);
+        int ftime;
+        in >> ftime;
+        if(0!=ftime)
+            m_flytime=ftime;
+        filetime.close();
+    }
+
     QFile file("./data/zy_config.xml");
     if(!file.open(QFile::ReadOnly))
         return;
@@ -148,15 +159,6 @@ void ZYGroundGlobalConfig::LoadConfig()
     tmpElem = root.firstChildElement("pianhangyaw");
     m_YawAngle = tmpElem.text().toFloat();
      qDebug()<<"pianhangyaw"<< m_YawAngle;
-     //飞行时间
-     //tmpElem = root.firstChildElement("flytime");
-     //m_flytime = tmpElem.text().toInt();
-     //qDebug() << "flytime" << m_flytime;
-     tmpElem = root.firstChildElement("flytime");
-     if(tmpElem.isElement()){
-         m_flytime = tmpElem.attribute("time",QString::number(m_flytime)).toInt();
-         qDebug() << "flytime" << m_flytime;
-     }
     // SubOutTime();
 }
 
@@ -225,7 +227,7 @@ void ZYGroundGlobalConfig::SubOutTime(){
 
     QDomElement root = document.documentElement();
     QDomElement n = root.firstChildElement("remaintime");
-    QDomElement n_time = root.firstChildElement("flytime");
+
     if(n.isNull())
     {
         n = document.createElement("remaintime");
@@ -236,11 +238,7 @@ void ZYGroundGlobalConfig::SubOutTime(){
     n.setAttribute("eledebug",m_EleDebugRemainTime);
     n.setAttribute("battery",m_BatteryRemainTime);
     n.setAttribute("motor",m_MotorRemainTime);
-    if(n_time.isNull()){
-        n_time = document.createElement("flytime");
-        root.appendChild(n_time);
-    }
-    n_time.setAttribute("time",m_flytime);
+
     if(!file.open(QFile::WriteOnly|QFile::Truncate))
         return;
 
@@ -248,5 +246,15 @@ void ZYGroundGlobalConfig::SubOutTime(){
      out_stream.setCodec(vCodec);
      document.save(out_stream,4);
      file.close();
+
+     QFile file1("./data/flytime.fly");
+     if(!file1.open(QIODevice::WriteOnly))
+     {
+         qDebug() << "Can't open file for writing";
+         return ;
+     }
+     QDataStream out(&file1);
+     out << int(m_flytime);
+     file1.close();
 }
 
