@@ -630,10 +630,10 @@ QString DataParameterView::GetLabHtmlStr(const QString &pig, const QString &name
       else
           label_RecData->setStyleSheet(strAlarmStatus);
 
-      if(sys_sts&0x10000000)//位置解算
+     // if(sys_sts&0x10000000)//位置解算
           label_CalPosition->setStyleSheet(strNormalStatus);
-      else
-          label_CalPosition->setStyleSheet(strAlarmStatus);
+     // else
+     //     label_CalPosition->setStyleSheet(strAlarmStatus);
 
       QString strGPS_status;
       QString strRTK_status;

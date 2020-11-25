@@ -44,6 +44,8 @@ public:
     static  int    m_MotorRemainTime;
     //偏航角
     static float m_YawAngle;
+    //飞行时长
+    static int m_flytime;
 
 signals:
 

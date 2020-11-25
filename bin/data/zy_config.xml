@@ -9,6 +9,7 @@
     <Icon>/data/zy.png</Icon>
     <JoyStick Name="COM2"/>
     <MainPort Name="COM5" BaudRate="115200"/>
-    <remaintime eledebug="6589" motor="5389" rotor="5989" battery="5389"/>
+    <remaintime motor="5383" battery="5383" rotor="5983" eledebug="6583"/>
     <pianhangyaw>54.5</pianhangyaw>
+    <flytime time="3"/>
 </Ground>

@@ -177,6 +177,8 @@ void StatusMonitor::TimeAddSlot()
             this->ui->label_eledebugremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_EleDebugRemainTime));
             m_PA_BatteryRemainTime.checkValue(ZYGroundGlobalConfig::m_BatteryRemainTime);
             this->ui->label_batteryremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_BatteryRemainTime));
+            //飞行时长显示
+            this->ui->lbl_flytime_value->setText(QString::number(ZYGroundGlobalConfig::m_flytime));
         }
     }
 }
@@ -411,7 +413,7 @@ void StatusMonitor::reshapeLabel()
    m_PA_BatteryRemainTime.checkValue(ZYGroundGlobalConfig::m_BatteryRemainTime);
    this->ui->label_batteryremaintime_value->setLabelText(QString::number(ZYGroundGlobalConfig::m_BatteryRemainTime));
 
-
+    this->ui->lbl_flytime_value->setText(QString::number(ZYGroundGlobalConfig::m_flytime));
 }
 
 
