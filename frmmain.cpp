@@ -690,6 +690,8 @@ void frmMain::UpdateFlightMode(int mode)
         this->m_datapview->btn_changeAlt->setEnabled(true);
         this->m_datapview->btn_changeYaw->setEnabled(true);
         this->m_datapview->btn_follow->setEnabled(true);
+        this->m_datapview->btn_electirc->setEnabled(true);
+        this->m_datapview->btn_electirc_close->setEnabled(true);
 
 
         this->m_datapview->btn_land->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
@@ -718,6 +720,18 @@ void frmMain::UpdateFlightMode(int mode)
                                                                     background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
                                                                     stop:0 rgba(225, 225, 225, 255),\
                                                                     stop:1 rgba(185, 185, 185, 255));"));
+        this->m_datapview->btn_electirc->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+                                                                     font: 14pt \"黑体\";\
+                                                                     border-radius:8px;\
+                                                                     background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
+                                                                     stop:0 rgba(225, 225, 225, 255),\
+                                                                     stop:1 rgba(185, 185, 185, 255));"));
+        this->m_datapview->btn_electirc_close->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+                                                                     font: 14pt \"黑体\";\
+                                                                     border-radius:8px;\
+                                                                     background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
+                                                                     stop:0 rgba(225, 225, 225, 255),\
+                                                                     stop:1 rgba(185, 185, 185, 255));"));
 //    }
 //    else
 //    {

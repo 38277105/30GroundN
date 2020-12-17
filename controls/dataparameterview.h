@@ -57,6 +57,8 @@ public slots:
 
      void on_btn_stick_clicked();
 
+     void on_btn_electric_clicked();
+
      //列出串口
      void PortsFoundNotify(QList<QSerialPortInfo> portlist);
 
@@ -86,7 +88,8 @@ public:
      QPushButton *btn_land;
      QPushButton *btn_follow;
      QPushButton *btn_stick;
-
+     QPushButton *btn_electirc;//电源按钮
+     QPushButton *btn_electirc_close;//电源按钮
 
      float m_current_alt;
      QTimer* m_timer;
@@ -101,6 +104,10 @@ public:
      void on_btn_exit_clicked();
      void on_cbx_ports_currentTextChanged(const QString &arg1);
      void on_btn_info_clicked();
+
+
+
+     void on_btn_electric_close_clicked();
 
  signals:
      void signal_setTabEnabled(bool bIsTabEnabled);

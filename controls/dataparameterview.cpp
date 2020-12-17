@@ -33,6 +33,9 @@ DataParameterView::DataParameterView(QWidget *parent) :
     btn_land = ui->btn_land;
     btn_follow = ui->btn_follow;
     btn_stick =ui->btn_stick;
+    btn_electirc = ui->btn_electric;
+    btn_electirc_close=ui->btn_electric_close;
+
     reSetupUi(this);
     m_current_alt=0;
     m_timer=new QTimer(this);
@@ -47,6 +50,8 @@ DataParameterView::DataParameterView(QWidget *parent) :
     btn_follow->setEnabled(false);
     btn_stick->setEnabled(false);
 	ui->btn_info->setEnabled(false);
+    ui->btn_electric->setEnabled(false);
+    ui->btn_electric_close->setEnabled(false);
 
     btn_takeoffOnekey->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                     font: 14pt \"黑体\";\
@@ -87,13 +92,26 @@ DataParameterView::DataParameterView(QWidget *parent) :
                                              background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
                                              stop:0 rgba(185, 185, 185, 255),\
                                              stop:1 rgba(135, 135, 135, 255));"));
-	ui->btn_info->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+    ui->btn_info->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
 												font: 14pt \"黑体\";\
 												border-radius:8px;\
 												background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
 												stop:0 rgba(185, 185, 185, 255),\
 												stop:1 rgba(135, 135, 135, 255));"));
+    btn_electirc->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+                                            font: 14pt \"黑体\";\
+                                            border-radius:8px;\
+                                            background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
+                                            stop:0 rgba(185, 185, 185, 255),\
+                                            stop:1 rgba(135, 135, 135, 255));"));
+    btn_electirc_close->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+                                            font: 14pt \"黑体\";\
+                                            border-radius:8px;\
+                                            background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
+                                            stop:0 rgba(185, 185, 185, 255),\
+                                            stop:1 rgba(135, 135, 135, 255));"));
     IsConnected=false;
+
 
     le_alt->setValidator(new QDoubleValidator(5.0, 300.0,2, this));
     le_height->setValidator(new QDoubleValidator(5.0, 300.0,2, this));
@@ -482,6 +500,8 @@ QString DataParameterView::GetLabHtmlStr(const QString &pig, const QString &name
           btn_follow->setEnabled(false);
           btn_stick->setEnabled(false);
 		  ui->btn_info->setEnabled(true);
+          ui->btn_electric->setEnabled(false);
+
           btn_takeoffOnekey->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                           font: 14pt \"黑体\";\
                                                           border-top-left-radius:8px;\
@@ -522,6 +542,18 @@ QString DataParameterView::GetLabHtmlStr(const QString &pig, const QString &name
 													  stop:0 rgba(185, 185, 185, 255),\
 													  stop:1 rgba(135, 135, 135, 255));"));
           btn_stick->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+                                                      font: 14pt \"黑体\";\
+                                                      border-radius:8px;\
+                                                      background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
+                                                      stop:0 rgba(185, 185, 185, 255),\
+                                                      stop:1 rgba(135, 135, 135, 255));"));
+          btn_electirc->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+                                                      font: 14pt \"黑体\";\
+                                                      border-radius:8px;\
+                                                      background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
+                                                      stop:0 rgba(185, 185, 185, 255),\
+                                                      stop:1 rgba(135, 135, 135, 255));"));
+          btn_electirc_close->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                       font: 14pt \"黑体\";\
                                                       border-radius:8px;\
                                                       background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
@@ -766,4 +798,17 @@ void DataParameterView::on_btn_stick_clicked()
         //btn_stick->setText(QStringLiteral("开启摇杆"));
         FrmMainController::Instance()->setRCType(0);
     }
+}
+
+
+void DataParameterView::on_btn_electric_clicked()
+{
+    FrmMainController::Instance()->__vehicle->mavLinkMessageInterface.doCommand((MAV_CMD)181,20,0,0,0,0,0,float(2000));
+    myHelper::ShowMessageBoxInfo("电源已开启");
+}
+
+void DataParameterView::on_btn_electric_close_clicked()
+{
+    FrmMainController::Instance()->__vehicle->mavLinkMessageInterface.doCommand((MAV_CMD)181,20,0,0,0,0,0,float(1000));
+    myHelper::ShowMessageBoxInfo("电源已关闭");
 }
