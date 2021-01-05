@@ -72,14 +72,15 @@ void UAVItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     // painter->rotate(-90);
     QPainter::RenderHints oldhints = painter->renderHints();
     painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    painter->drawPixmap(-pic.width()/2,-pic.height()/2,pic);
+    //painter->drawPixmap(-pic.width()/2,-pic.height()/2,pic);
+    painter->drawPixmap(-15,15-pic.height(),pic);
     painter->setRenderHints(oldhints);
-    //   painter->drawRect(QRectF(-pic.width()/2,-pic.height()/2,pic.width()-1,pic.height()-1));
 }
 
 QRectF UAVItem::boundingRect()const
 {
-    return QRectF(-pic.width()/2,-pic.height()/2,pic.width(),pic.height());
+    //return QRectF(-pic.width()/2,-pic.height()/2,pic.width(),pic.height());
+    return QRectF(-15,15-pic.height(),pic.width(),pic.height());
 }
 
 void UAVItem::SetUAVPos(const internals::PointLatLng &position, const int &altitude,
