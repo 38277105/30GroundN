@@ -159,7 +159,7 @@ private:
     //206所网络数据发送
     NetControlTo206*         m_pNet206;
     ZYStick*                 m_pZYStick;
-    JoyStickToFlyController* m_pJoystick;
+    //JoyStickToFlyController* m_pJoystick;
 public:
     LinkManager*            __linkManager;
     VehicleManager*         __vehicheManager;

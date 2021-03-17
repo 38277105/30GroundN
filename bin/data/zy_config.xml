@@ -7,8 +7,7 @@
     <Title>卓翼地面站T</Title>
     <!--路径是相对exe,并只能用/,png或ico文件且大小为32*32或24*24或16*16-->
     <Icon>/data/zy.png</Icon>
-    <JoyStick Name="COM2"/>
-    <MainPort Name="COM5" BaudRate="115200"/>
+    <JoyStick Name="COM2" BaudRate="115200" />
     <remaintime motor="5383" battery="5383" rotor="5983" eledebug="6583"/>
     <pianhangyaw>54.5</pianhangyaw>
 </Ground>

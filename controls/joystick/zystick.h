@@ -4,6 +4,11 @@
 #include <QObject>
 #include <QTimer>
 #include <QSerialPort>
+#include <QObject>
+#include <QThread>
+#include <QWaitCondition>
+#include <QMutex>
+
 enum
 {
     SK_MENU_UP=0xA1,     //菜单上
@@ -23,33 +28,21 @@ enum
     SK_MENU_LAFTER_D,      //后左按钮双击
     SK_MENU_RAFTER_D
 };
+#pragma pack(push) //保存对齐状态
+#pragma pack(1)//设定为1字节对齐
 struct StickPK
 {
-    quint16  nMask;
-    quint8   nKey1;
-    quint8   nKey2;
-    quint8   nKey3;
-    quint8   nKey4;
-    quint8   nKey5;
-    qint8    nLUpDown;
-    qint8    nLLeftRight;
-    quint8   nVolt;
-    qint8    nRUpDown;
-    qint8    nRLeftRight;
-    qint32   nReserve1;
-    qint32   nReserve2;
-    qint16   nReserve3;
-    quint8   nReserve4;
-    quint8   nReserve5;
-    quint8   nReserve6;
-    quint8   nReserve7;
-    quint8   nReserve8;
-    quint8   nReserve9;
-    quint16  nReserve10;
-    quint16  nCrc;
+    quint8  nSTX;
+    quint8  reserve1;
+    quint8  nDataLength;
+    quint16  nSeq;
+    quint8   nCmd;
+    quint16  nKeys[16];
+    quint8   nCheckSum;
 };
+#pragma pack(pop)//恢复对齐状态
 #define SKPK_LEN   sizeof(StickPK)
-#define SKPK_MASK  0x60DD
+#define SKPK_MASK  0x55
 struct CHItem
 {
     int min;
@@ -66,30 +59,85 @@ struct CHItem
         cur=mid;
     }
 };
+
+
+class SerialPort : public QObject
+
+{
+
+  Q_OBJECT
+
+public:
+
+  explicit SerialPort(QObject *parent = NULL);
+
+  ~SerialPort();
+
+
+
+  void init_port(QString portName,long portBaud);  //初始化串口
+  //void startLoop();
+
+
+
+public slots:
+
+  void handle_data();  //处理接收到的数据
+
+  void write_data();     //发送数据
+
+
+
+signals:
+
+  //接收数据
+
+  void receive_data(QByteArray tmp);
+
+
+
+private:
+
+  QThread *my_thread;
+
+  QSerialPort *port;
+
+};
+
 class ZYStick : public QObject
 {
     Q_OBJECT
 public:
     explicit ZYStick(QObject *parent = 0);
     ~ZYStick();
-    bool    linkOpen(QString portName,int BaudRate);
+    void    setPort(QString portName,int BaudRate);
+    bool    linkOpen();
     bool    linkClose();
-    bool    isOpened();
+    void    setSend(bool bSend);
+    bool    isSending();
+    float getValue(){return m_debugValue;};
 public slots:
-    void onReadyRead();
+    void onReadyRead(QByteArray data);
     void onTmUpdate();
 private:
     int      __writeBytes(const char* buffer, const int length);
     StickPK* CheckHead(QByteArray &dt,int& nDropLen);
     bool     CheckCRC16(QByteArray &dt,quint16 crc);
+    bool     CheckSum(StickPK* pHead);
     void     ReadFrame(StickPK* pHead);
     void     LoadParam();
 private:
     QSerialPort  __serialport;
     QString      __portName;
+    int          __portBaud;
     QByteArray   __buf;
+    float m_debugValue;
+    SerialPort*  m_sPort;
+    bool         m_bSending;
     int          m_nNum;
-    bool         m_bOpened;
+    int          m_nOKNum;
+    int          m_nCRCNum;
+    bool         m_bKeyRecv;
     CHItem       m_Thro;
     CHItem       m_Yaw;
     CHItem       m_Pitch;
@@ -97,7 +145,6 @@ private:
     CHItem       m_Ch5;
     CHItem       m_Ch8;
     QTimer       m_tm;
-    float        m_fNuJu; //小于0不发送保持现状，0减小，100增大
 };
 
 #endif // ZYSTICK_H

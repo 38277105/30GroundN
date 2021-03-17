@@ -59,7 +59,12 @@
 #include "controls/InfoPanel/infomonitor.h"
 
 bool isCommConnected = false;//串口是否连接
-
+struct EnKeyItem
+{
+    bool   bUseKey;
+    qint64 iLastTime;
+    qint64 iEndTime;
+};
 frmMain::frmMain(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::frmMain)
@@ -71,6 +76,48 @@ frmMain::frmMain(QWidget *parent) :
         myHelper::ShowMessageBoxInfo("程序已经启动");
         exit(0);
     }
+    //许可文件判断
+    QFile fs("./data/Nor.sr");
+    bool bKeyOk=false;
+    qint64 iCurTime=QDate::currentDate().toJulianDay();
+    if(fs.open(QFile::ReadWrite))
+    {
+        EnKeyItem keyItem;
+        int sz=sizeof(keyItem);
+        if(sz==fs.read((char*)&keyItem,sz))
+        {
+            char* pKey=(char*)&keyItem;
+            for(int i=0;i<sz;i++)  //解密
+            {
+                *(pKey+i)+=5;
+                *(pKey+i)^=12138;
+            }
+            if(!keyItem.bUseKey)   //许可没有启用
+                bKeyOk=true;
+            else
+            {
+                //许可要大于当前时间，并在许可范围之内，把当前时间写入许可文件
+               if(iCurTime>=keyItem.iLastTime && iCurTime<=keyItem.iEndTime)
+               {
+                   bKeyOk=true;
+                   keyItem.iLastTime=iCurTime;
+                   for(int i=0;i<sz;i++)
+                   {
+                       *(pKey+i)^=12138;
+                       *(pKey+i)-=5;
+                   }
+                   fs.write((char*)&keyItem,sz);  //更新许可文件
+               }
+            }
+        }
+        fs.close();
+    }
+    if(!bKeyOk)
+    {
+        myHelper::ShowMessageBoxInfo("软件已过期");
+        exit(0);
+    }
+
     ui->setupUi(this);
 
     m_WinRect=myHelper::GetWinRect(this);

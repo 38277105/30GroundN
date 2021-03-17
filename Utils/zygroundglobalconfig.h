@@ -26,6 +26,7 @@ public:
     static int     m_nNet206Port;
     static QString m_sNet206IP;
     static QString m_sIconName;
+    static bool    m_bUsedStick;
     static QString m_sStickPortName;
     static int     m_sStickBaudRate;
     static QString m_sMainPortName;

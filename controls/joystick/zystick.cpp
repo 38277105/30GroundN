@@ -1,9 +1,11 @@
 ﻿#include "zystick.h"
 #include <QDir>
 #include <QDomDocument>
-#include "../vehicles/vehicle.h"
+#include <QTextCodec>
+#include "../../vehicles/vehicle.h"
 #include "../../controllers/frmmaincontroller.h"
 #include <QDebug>
+//#include "serialthread.h"
 
 //CRC数据表
 const quint8 aucCRCHi[] = {
@@ -58,29 +60,15 @@ const quint8 aucCRCLo[] = {
 ZYStick::ZYStick(QObject *parent) : QObject(parent),m_Ch5(1000,2000),m_Ch8(1000,2000),
     m_Thro(1000,2000),m_Yaw(1000,2000),m_Roll(1000,2000),m_Pitch(1000,2000)
 {
-    disconnect(&__serialport, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-    connect(&__serialport, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
     LoadParam();
     m_nNum=0;
-    m_bOpened=false;
     m_Ch5.cur=m_Ch5.max;
     m_Thro.cur=m_Thro.min;
     m_Ch8.cur=m_Ch8.max;
-    m_fNuJu=-1;        //小于0不发送，0减小，100增大
+    m_bSending=false;
+    m_bKeyRecv = false;
+
     connect(&m_tm,SIGNAL(timeout()),this,SLOT(onTmUpdate()));
-//    QByteArray tmp;
-//    tmp.push_back(0xDD);
-//    tmp.push_back(0x60);
-//    for(int i=0;i<7;i++)
-//        tmp.push_back((char)0);
-//    tmp.push_back(0xEF);
-//    for(int i=0;i<20;i++)
-//        tmp.push_back((char)0);
-//    tmp.push_back(0xA1);
-//    tmp.push_back(0x7B);
-//    StickPK* pHead=(StickPK*)tmp.data();
-//    qDebug()<<pHead->nCrc;
-//    CheckCRC16(tmp,pHead->nCrc);
 }
 
 ZYStick::~ZYStick()
@@ -145,40 +133,56 @@ void ZYStick::LoadParam()
     }
 }
 
-bool ZYStick::linkOpen(QString portName, int BaudRate)
+void ZYStick::setPort(QString portName, int BaudRate)
 {
-    if(__serialport.isOpen())
-        __serialport.close();
-    __serialport.setPortName(portName);
-    if(__serialport.open(QIODevice::ReadWrite))
-    {
-        __serialport.setBaudRate(BaudRate);
-        __serialport.setParity(QSerialPort::NoParity);
-        __serialport.setDataBits(QSerialPort::Data8);
-        __serialport.setStopBits(QSerialPort::OneStop);
-        __serialport.setFlowControl(QSerialPort::NoFlowControl);
-        __serialport.clearError();
-        __serialport.clear();
-        m_bOpened=true;
-    }
-    else
-        return false;
+    __portName=portName;
+    __portBaud=BaudRate;
+}
+
+bool ZYStick::linkOpen()
+{
+    m_nOKNum=0;
+    m_nCRCNum=0;
+    m_nNum=0;
+    m_sPort = new SerialPort();
+    m_sPort->init_port(__portName, __portBaud);
+    connect(m_sPort,SIGNAL(receive_data(QByteArray)),this,SLOT(onReadyRead(QByteArray)),Qt::QueuedConnection);
+    //m_Thread =new SerialThread(__portName, __portBaud);
+
+    //connect(m_Thread,SIGNAL(senddata(QByteArray)),this,SLOT(onReadyRead(QByteArray)),Qt::QueuedConnection);
+
+            //接收子线程传输数据的信号
+    //m_Thread->setPriority(QThread :: HighestPriority);//开启子线程
+    //m_Thread->run();
     m_tm.start(50);
     return true;
 }
 
 bool ZYStick::linkClose()
 {
-    m_bOpened=false;
-    m_tm.stop();
+    m_bSending=false;
+//    m_tm.stop();
     if(__serialport.isOpen())
         __serialport.close();
     return true;
 }
 
-bool ZYStick::isOpened()
+bool ZYStick::isSending()
 {
-    return m_bOpened;
+    return m_bSending;
+}
+
+void ZYStick::setSend(bool bSend)
+{
+    if(bSend && !__serialport.isOpen())
+    {
+        if(linkOpen())
+            m_bSending=true;
+        else
+            m_bSending=false;
+    }
+    else
+        m_bSending=bSend;
 }
 int ZYStick::__writeBytes(const char* buffer, const int length){
     // Lock
@@ -189,18 +193,13 @@ int ZYStick::__writeBytes(const char* buffer, const int length){
     return sz;
 }
 
-void ZYStick::onReadyRead()
+void ZYStick::onReadyRead(QByteArray data)
 {
-    if(!__serialport.isOpen())
-        return;
-
-    if(__serialport.bytesAvailable()<SKPK_LEN)
-        return;
     int nDropLen=0;
-    __buf.append(__serialport.read(SKPK_LEN));
+    __buf.append(data);
     StickPK* pHead=CheckHead(__buf,nDropLen);
     if(nDropLen>0)
-        qDebug()<<"Drop data="<<nDropLen;
+        qDebug()<<m_nNum<<" Drop data="<<nDropLen;
     if(!pHead)
        return;
     ReadFrame(pHead);
@@ -208,43 +207,30 @@ void ZYStick::onReadyRead()
 }
 void ZYStick::ReadFrame(StickPK *pHead)
 {
-    if(pHead->nKey5==0xC2)//右摇杆
-    {
-        m_Thro.cur=pHead->nRUpDown*m_Thro.range/240+m_Thro.mid;
-        m_Roll.cur =pHead->nRLeftRight*m_Roll.range/240+m_Roll.mid;
-    }
-    if(pHead->nKey4==0xC1)//左摇杆
-    {
-        m_Pitch.cur=-pHead->nLUpDown*m_Pitch.range/240+m_Pitch.mid;
-        m_Yaw.cur =pHead->nLLeftRight*m_Yaw.range/240+m_Yaw.mid;
-    }
-    if(pHead->nKey1==SK_BT_LUP || pHead->nKey2==SK_BT_LUP || pHead->nKey3==SK_BT_LUP)
-        m_Ch5.cur=m_Ch5.min;  //增稳
-    else if(pHead->nKey1==SK_BT_LDOWN || pHead->nKey2==SK_BT_LDOWN || pHead->nKey3==SK_BT_LDOWN)
-        m_Ch5.cur=m_Ch5.max;  //定点
-    else
-        m_Ch5.cur=m_Ch5.mid;  //定高
+ //   qDebug()<<"Stick Key:";
+//    for(int i=0;i<16;i++)
+ //       qDebug()<<pHead->nKeys[0]<<pHead->nKeys[1]<<pHead->nKeys[2]<<pHead->nKeys[3]<<pHead->nKeys[4]<<pHead->nKeys[7];
 
-    if(pHead->nKey1==SK_BT_RDOWN || pHead->nKey2==SK_BT_RDOWN || pHead->nKey3==SK_BT_RDOWN)
-        m_Ch8.cur=m_Ch8.max;
-    else
-        m_Ch8.cur=m_Ch8.min;
-
-//    if(pHead->nKey1==SK_THROTE_UP || pHead->nKey2==SK_THROTE_UP ||pHead->nKey3==SK_THROTE_UP)
-//        m_fNuJu=100;                      //扭矩加
-//    else if(pHead->nKey1==SK_THROTE_DOWN || pHead->nKey2==SK_THROTE_DOWN ||pHead->nKey3==SK_THROTE_UP)
-//        m_fNuJu=0;                        //扭矩减
-//    else
-//        m_fNuJu=-1;                      //不发送
+    m_Thro.cur=pHead->nKeys[2];
+    m_Roll.cur=pHead->nKeys[0];
+    m_Pitch.cur=pHead->nKeys[1];
+    m_Yaw.cur=pHead->nKeys[3];
+    m_Ch5.cur=pHead->nKeys[4];
+    m_Ch8.cur=pHead->nKeys[7];
+    m_bKeyRecv = true;
+    m_debugValue = pHead->nKeys[2];
 }
 
 void ZYStick::onTmUpdate()
 {
+    if(!m_bSending)
+        return;
     m_nNum++;
-    if(m_nNum>10)
+    if(m_nNum>=10)
     {
         m_nNum=0;
-        qDebug()<<QStringLiteral("姿态")<<m_Pitch.cur<<m_Roll.cur<<m_Thro.cur<<m_Yaw.cur<<m_Ch5.cur;
+        //qDebug()<<"Recv OK="<<m_nOKNum<<"bad crc="<<m_nCRCNum;
+        //qDebug()<<QTime::currentTime().msecsSinceStartOfDay()<<m_nOKNum<<m_Pitch.cur<<m_Roll.cur<<m_Thro.cur<<m_Yaw.cur<<m_Ch5.cur;
         if(m_Thro.cur==m_Thro.min)
         {
             if(m_Yaw.cur==m_Yaw.max)
@@ -255,14 +241,11 @@ void ZYStick::onTmUpdate()
     }
 
     Vehicle* pVeh=FrmMainController::Instance()->__vehicle;
-    if(!pVeh)
+    if(!pVeh||!m_bKeyRecv)
         return;
     pVeh->mavLinkMessageInterface.sendRC_channels_override(m_Pitch.cur, m_Roll.cur, m_Thro.cur, m_Yaw.cur,m_Ch5.cur,m_Ch8.cur);
-//    if(m_fNuJu!=-1)//发送扭矩控制
-//    {
-//        pVeh->mavLinkMessageInterface.doCommand((MAV_CMD)181,10,m_fNuJu,0,0,0,0,0);
-//        qDebug()<<"Send NJ="<<m_fNuJu;
-//    }
+    m_bKeyRecv = false;
+    //qDebug()<<"send to uav one pack";
 }
 
 //解析数据包包头
@@ -273,7 +256,7 @@ StickPK* ZYStick::CheckHead(QByteArray &dt,int& nDropLen)
     while(dt.count()>=SKPK_LEN)
     {
         pHead=(StickPK*)(dt.data());
-        if(pHead->nMask!=SKPK_MASK) //对比标识
+        if(pHead->nSTX!=SKPK_MASK) //对比标识
         {
             dt.remove(0,1);   //扔掉一个字节
             nDropLen++;
@@ -281,14 +264,19 @@ StickPK* ZYStick::CheckHead(QByteArray &dt,int& nDropLen)
         }
         else
         {
-            if(!CheckCRC16(dt,pHead->nCrc))  //校验错误
+            if(!CheckSum(pHead))
+            //if(!CheckCRC16(dt,pHead->nCrc))  //校验错误
             {
-                dt.remove(0,2);
-                nDropLen+=2;
+                dt.remove(0,1);
+                nDropLen+=1;
+                m_nCRCNum++;
                 continue;
             }
             else
+            {
+                m_nOKNum++;
                 return pHead;
+            }
         }
     }
     return NULL;
@@ -316,8 +304,124 @@ bool ZYStick::CheckCRC16(QByteArray &dt,quint16 crc)
     }
     else
     {
-        qDebug()<<"CRC Check Failed";
+        //qDebug()<<"CRC Check Failed";
         return false;
     }
+
+}
+
+//CRC16校验
+bool ZYStick::CheckSum(StickPK* pHead)
+{
+    //quint8 tmpData[] = {0x55, 00, 0x20, 0xA9 ,0xE5, 00, 0xDC, 05, 0xDC, 05,\
+     //                    0xE8 ,03, 0xDC, 05, 0xDC, 05, 0xE8, 03, 0xE8, 03, 0xE8, 03, 0xDC, 05,\
+    //                    0xDC, 05, 0xE8, 03, 0xE8 ,03, 0xE8 ,03, 0xE8 ,03, 0xE8, 03, 0xE8, 03, 0x77};
+    //pHead =(StickPK*)tmpData;
+    quint8* dt=(quint8*)pHead;
+    int len=SKPK_LEN-1;
+    //len= sizeof(tmpData)-1;
+    quint8 sum=0;
+    while (len > 0)
+    {
+        sum = sum + *dt++;
+        len= len-1;
+    }
+    return sum == *dt;
+}
+
+SerialPort::SerialPort(QObject *parent) : QObject(parent)
+
+{
+    my_thread = new QThread();
+    port = new QSerialPort();
+}
+
+SerialPort::~SerialPort()
+
+{
+
+    port->close();
+
+    port->deleteLater();
+
+    my_thread->quit();
+
+    my_thread->wait();
+
+    my_thread->deleteLater();
+
+}
+
+
+
+void SerialPort::init_port(QString portName,long portBaud)
+
+{
+
+    port->setPortName(portName);                   //串口名 windows下写作COM1
+
+    port->setBaudRate(portBaud);                           //波特率
+
+    port->setDataBits(QSerialPort::Data8);             //数据位
+
+    port->setStopBits(QSerialPort::OneStop);           //停止位
+
+    port->setParity(QSerialPort::NoParity);            //奇偶校验
+
+    port->setFlowControl(QSerialPort::NoFlowControl);  //流控制
+
+    if (port->open(QIODevice::ReadWrite))
+
+    {
+
+        qDebug() << "Port have been opened";
+
+    }
+
+    else
+
+    {
+
+        qDebug() << "open it failed";
+
+    }
+
+    connect(port, SIGNAL(readyRead()), this, SLOT(handle_data()), Qt::QueuedConnection); //Qt::DirectConnection
+
+
+
+    this->moveToThread(my_thread);
+
+    port->moveToThread(my_thread);
+
+    my_thread->start();
+
+}
+
+
+
+void SerialPort::handle_data()
+
+{
+
+    QByteArray data = port->readAll();
+
+    //qDebug() << QStringLiteral("data received(收到的数据):") << data;
+
+    //qDebug() << "handing thread is:" << QThread::currentThreadId();
+
+    emit receive_data(data);
+
+}
+
+
+
+void SerialPort::write_data()
+
+{
+
+    qDebug() << "write_id is:" << QThread::currentThreadId();
+
+    port->write("data", 4);   //发送“data”字符
 
 }

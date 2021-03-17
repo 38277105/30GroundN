@@ -57,30 +57,37 @@ FrmMainController::FrmMainController(QObject *parent) : QObject(parent)
     //m_lockData=new MutexData();
     m_pNet206=NULL;
 
-    bool bUsedMyStick=true;
-    if(ZYGroundGlobalConfig::m_sStickPortName=="")
-        bUsedMyStick=false;
-    if(bUsedMyStick)
+//    bool bUsedMyStick=true;
+//    if(ZYGroundGlobalConfig::m_sStickPortName=="")
+//        bUsedMyStick=false;
+//    if(bUsedMyStick)
+//    {
+//        m_pZYStick=new ZYStick();
+//        m_pJoystick=NULL;
+//    }
+//    else
+//    {
+//        m_pZYStick=NULL;
+//        m_pJoystick=new JoyStickToFlyController();
+//    }
+    m_pZYStick=NULL;
+    if(ZYGroundGlobalConfig::m_bUsedStick)
     {
         m_pZYStick=new ZYStick();
-        m_pJoystick=NULL;
-    }
-    else
-    {
-        m_pZYStick=NULL;
-        m_pJoystick=new JoyStickToFlyController();
+        m_pZYStick->setPort(ZYGroundGlobalConfig::m_sStickPortName,ZYGroundGlobalConfig::m_sStickBaudRate);
     }
 }
 
 FrmMainController::~FrmMainController()
 {
-    if(m_pJoystick)
-    {
-        delete m_pJoystick;
-        m_pJoystick=NULL;
-    }
+//    if(m_pJoystick)
+//    {
+//        delete m_pJoystick;
+//        m_pJoystick=NULL;
+//    }
     if(m_pZYStick)
     {
+        m_pZYStick->linkClose();
         delete m_pZYStick;
         m_pZYStick=NULL;
     }
@@ -246,8 +253,8 @@ void FrmMainController::stop()
     m_frmMain->m_datapview->UpdateStatus(0,0,0,0,0);
     if(m_pZYStick)
         m_pZYStick->linkClose();
-    if(m_pJoystick)
-        m_pJoystick->stopPolling();
+//    if(m_pJoystick)
+//        m_pJoystick->stopPolling();
     if(m_pNet206!=NULL)
     {
         m_pNet206->stop();
@@ -483,34 +490,30 @@ void FrmMainController::Timer_Tick()
     this->m_frmMain->m_datapview->UpdateStatus(sys_sts,gps_sts,rtk_sts,psi_sts,t_state.isJS);
     if(t_state.isJS)
     {
-        if(m_pZYStick && !m_pZYStick->isOpened())
+        if(m_pZYStick && !m_pZYStick->isSending())
         {
-            bool ret=m_pZYStick->linkOpen(ZYGroundGlobalConfig::m_sStickPortName,ZYGroundGlobalConfig::m_sStickBaudRate);
-            if(!ret)
-                qDebug()<<"Open ZY Stick failed";
-            else
-                qDebug()<<"Open ZY Stick success";
+            m_pZYStick->setSend(true);
+            qDebug()<<"ZY Stick sending";
         }
-        else if(m_pJoystick && !m_pJoystick->isOpened())
-        {
-            m_pJoystick->startPolling();
-            qDebug()<<"Open Joy Stick success";
-        }
+//        else if(m_pJoystick && !m_pJoystick->isOpened())
+//        {
+//            m_pJoystick->startPolling();
+//            qDebug()<<"Open Joy Stick success";
+//        }
     }
     else
     {
-        if(m_pZYStick && m_pZYStick->isOpened())
+        if(m_pZYStick && m_pZYStick->isSending())
         {
-            m_pZYStick->linkClose();
             qDebug()<<"ZY Stick closed";
+            m_pZYStick->setSend(false);
         }
-        else if(m_pJoystick && m_pJoystick->isOpened())
-        {
-            m_pJoystick->stopPolling();
-            qDebug()<<"Joy Stick closed";
-        }
+//        else if(m_pJoystick && m_pJoystick->isOpened())
+//        {
+//            m_pJoystick->stopPolling();
+//            qDebug()<<"Joy Stick closed";
+//        }
     }
-
 }
 
 

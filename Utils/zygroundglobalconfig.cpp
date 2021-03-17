@@ -17,6 +17,7 @@ bool    ZYGroundGlobalConfig::m_bUsedNet206=false;
 int     ZYGroundGlobalConfig::m_nNet206Port=10011;
 QString ZYGroundGlobalConfig::m_sNet206IP="127.0.0.1";
 QString ZYGroundGlobalConfig::m_sIconName="";
+bool    ZYGroundGlobalConfig::m_bUsedStick=false;
 QString ZYGroundGlobalConfig::m_sStickPortName="COM2";
 int     ZYGroundGlobalConfig::m_sStickBaudRate=115200;
 bool    ZYGroundGlobalConfig::m_bUsedSlavePort=false;
@@ -119,10 +120,14 @@ void ZYGroundGlobalConfig::LoadConfig()
     tmpElem = root.firstChildElement("JoyStick");
     if(tmpElem.isElement())
     {
+        m_bUsedStick=true;
         m_sStickPortName=tmpElem.attribute("Name","");
         m_sStickBaudRate=tmpElem.attribute("BaudRate",QString::number(m_sStickBaudRate)).toInt();
-        qDebug()<<"JoyStick Enabled"<<m_sStickPortName;
+        qDebug()<<"ZYStick Enabled"<<m_sStickPortName;
     }
+    else
+        m_bUsedStick=false;
+
 
     tmpElem = root.firstChildElement("MainPort");
     if(tmpElem.isElement())
