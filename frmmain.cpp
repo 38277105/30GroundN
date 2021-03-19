@@ -106,7 +106,9 @@ frmMain::frmMain(QWidget *parent) :
                        *(pKey+i)^=12138;
                        *(pKey+i)-=5;
                    }
+                   fs.seek(0);
                    fs.write((char*)&keyItem,sz);  //更新许可文件
+                   fs.flush();
                }
             }
         }
