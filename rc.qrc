@@ -151,6 +151,7 @@
         <file>image/control/control_09.png</file>
         <file>image/icon/FileRec.png</file>
         <file>image/icon/PosCal.png</file>
+        <file>image/control/control_41.png</file>
     </qresource>
     <qresource prefix="/markers">
         <file>opmapcontrol_ex/mapwidget/images/airplane.png</file>

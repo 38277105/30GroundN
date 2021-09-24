@@ -74,9 +74,9 @@ void StatusMonitor::setStatus(VehicleState _state)
 //    }
 
 
-    this->ui->lbl_mainVolt_value->setText(QString::number(_state.MainVoltage, 'f', 2));
+    //this->ui->lbl_mainVolt_value->setText(QString::number(_state.MainVoltage, 'f', 2));
     this->ui->lbl_mainCurrent_value->setText(QString::number(_state.throttle));
-    this->ui->lbl_powerTempu_value->setText(QString::number(_state.Temperature, 'f', 2));
+    //this->ui->lbl_powerTempu_value->setText(QString::number(_state.Temperature, 'f', 2));
     this->ui->lbl_bakVolt_value->setText(QString::number(_state.BakVoltage, 'f', 2));
 
     this->ui->ll_east->setLabelText(QString::number(_state.X,'f', 2) + "m");
@@ -116,12 +116,15 @@ void StatusMonitor::setMonitor()
     alarmConfig tmpConfig;
     tmpConfig.minValue = 25;
     tmpConfig.maxValue = 62;
-    m_PA_mainVolt.setAlarmConfig(tmpConfig,ui->lbl_mainVolt_desc);
+    //m_PA_mainVolt.setAlarmConfig(tmpConfig,ui->lbl_mainVolt_desc);
 
-    tmpConfig.minValue = 3.8*m_bakVolt_coefficient;
+    tmpConfig.minValue = 43;//3.8*m_bakVolt_coefficient;
     tmpConfig.maxValue = 62;
+    tmpConfig.alarmOffset = 2;
+    tmpConfig.warnOffset = 1;
     m_PA_bakVolt.setAlarmConfig(tmpConfig,ui->lbl_bakVolt_desc);
-
+    tmpConfig.alarmOffset = 0;
+    tmpConfig.warnOffset = 0;
     //主电电流现在没有了，暂时用油门代替0%-75%,超过75报警
     tmpConfig.minValue = 0;
     tmpConfig.maxValue = 75;
@@ -129,7 +132,7 @@ void StatusMonitor::setMonitor()
 
     tmpConfig.minValue = 10;
     tmpConfig.maxValue = 100;
-    m_PA_Temperature.setAlarmConfig(tmpConfig,ui->lbl_powerTempu_desc);
+    //m_PA_Temperature.setAlarmConfig(tmpConfig,ui->lbl_powerTempu_desc);
 
     tmpConfig.minValue = 1000;
     tmpConfig.maxValue = 1700;
@@ -238,17 +241,17 @@ void StatusMonitor::reshapeLabel()
                    background-color: rgb(125, 125, 125);");
        fontsize = 12;
    }
-   this->ui->lbl_mainVolt_desc->setImage(":/image/control/control_01.png");
-   this->ui->lbl_mainVolt_desc->setFontSize(fontsize);
-   this->ui->lbl_mainVolt_desc->setLabelText(QStringLiteral("主电压监控"));
-   this->ui->lbl_mainVolt_value->setStyleSheet(strStyle);
-   this->ui->lbl_mainVolt_desc_2->setImage(":/image/control/control_06.png");
-   this->ui->lbl_mainVolt_desc_2->setFontSize(fontsize);
-   this->ui->lbl_mainVolt_desc_2->setLabelText(QStringLiteral("伏特"));
+   //this->ui->lbl_mainVolt_desc->setImage(":/image/control/control_01.png");
+   //this->ui->lbl_mainVolt_desc->setFontSize(fontsize);
+   //this->ui->lbl_mainVolt_desc->setLabelText(QStringLiteral("主电压监控"));
+   //this->ui->lbl_mainVolt_value->setStyleSheet(strStyle);
+   //this->ui->lbl_mainVolt_desc_2->setImage(":/image/control/control_06.png");
+   //this->ui->lbl_mainVolt_desc_2->setFontSize(fontsize);
+   //this->ui->lbl_mainVolt_desc_2->setLabelText(QStringLiteral("伏特"));
 
    this->ui->lbl_bakVolt_desc->setImage(":/image/control/control_01.png");
    this->ui->lbl_bakVolt_desc->setFontSize(fontsize);
-   this->ui->lbl_bakVolt_desc->setLabelText(QStringLiteral("备电压监控"));
+   this->ui->lbl_bakVolt_desc->setLabelText(QStringLiteral("电池电压监控"));
    this->ui->lbl_bakVolt_value->setStyleSheet(strStyle);
    this->ui->lbl_bakVolt_desc_2->setImage(":/image/control/control_06.png");
    this->ui->lbl_bakVolt_desc_2->setFontSize(fontsize);
@@ -262,13 +265,13 @@ void StatusMonitor::reshapeLabel()
    this->ui->lbl_mainCurrent_desc_2->setFontSize(fontsize);
    this->ui->lbl_mainCurrent_desc_2->setLabelText(QStringLiteral("\%"));
 
-   this->ui->lbl_powerTempu_desc->setImage(":/image/control/control_01.png");
-   this->ui->lbl_powerTempu_desc->setFontSize(fontsize);
-   this->ui->lbl_powerTempu_desc->setLabelText(QStringLiteral("机载电源温度"));
-   this->ui->lbl_powerTempu_value->setStyleSheet(strStyle);
-   this->ui->lbl_powerTempu_desc_2->setImage(":/image/control/control_06.png");
-   this->ui->lbl_powerTempu_desc_2->setFontSize(fontsize);
-   this->ui->lbl_powerTempu_desc_2->setLabelText(QStringLiteral("度"));
+//   this->ui->lbl_powerTempu_desc->setImage(":/image/control/control_01.png");
+//   this->ui->lbl_powerTempu_desc->setFontSize(fontsize);
+//   this->ui->lbl_powerTempu_desc->setLabelText(QStringLiteral("机载电源温度"));
+//   this->ui->lbl_powerTempu_value->setStyleSheet(strStyle);
+//   this->ui->lbl_powerTempu_desc_2->setImage(":/image/control/control_06.png");
+//   this->ui->lbl_powerTempu_desc_2->setFontSize(fontsize);
+//   this->ui->lbl_powerTempu_desc_2->setLabelText(QStringLiteral("度"));
 
    this->ui->lbl_ESC_A_desc->setImage(":/image/control/control_01.png");
    this->ui->lbl_ESC_A_desc->setFontSize(fontsize);

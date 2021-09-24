@@ -77,48 +77,48 @@ frmMain::frmMain(QWidget *parent) :
         exit(0);
     }
     //许可文件判断
-    QFile fs("./data/Nor.sr");
-    bool bKeyOk=false;
-    qint64 iCurTime=QDate::currentDate().toJulianDay();
-    if(fs.open(QFile::ReadWrite))
-    {
-        EnKeyItem keyItem;
-        int sz=sizeof(keyItem);
-        if(sz==fs.read((char*)&keyItem,sz))
-        {
-            char* pKey=(char*)&keyItem;
-            for(int i=0;i<sz;i++)  //解密
-            {
-                *(pKey+i)+=5;
-                *(pKey+i)^=12138;
-            }
-            if(!keyItem.bUseKey)   //许可没有启用
-                bKeyOk=true;
-            else
-            {
-                //许可要大于当前时间，并在许可范围之内，把当前时间写入许可文件
-               if(iCurTime>=keyItem.iLastTime && iCurTime<=keyItem.iEndTime)
-               {
-                   bKeyOk=true;
-                   keyItem.iLastTime=iCurTime;
-                   for(int i=0;i<sz;i++)
-                   {
-                       *(pKey+i)^=12138;
-                       *(pKey+i)-=5;
-                   }
-                   fs.seek(0);
-                   fs.write((char*)&keyItem,sz);  //更新许可文件
-                   fs.flush();
-               }
-            }
-        }
-        fs.close();
-    }
-    if(!bKeyOk)
-    {
-        myHelper::ShowMessageBoxInfo("软件已过期");
-        exit(0);
-    }
+//    QFile fs("./data/Nor.sr");
+//    bool bKeyOk=false;
+//    qint64 iCurTime=QDate::currentDate().toJulianDay();
+//    if(fs.open(QFile::ReadWrite))
+//    {
+//        EnKeyItem keyItem;
+//        int sz=sizeof(keyItem);
+//        if(sz==fs.read((char*)&keyItem,sz))
+//        {
+//            char* pKey=(char*)&keyItem;
+//            for(int i=0;i<sz;i++)  //解密
+//            {
+//                *(pKey+i)+=5;
+//                *(pKey+i)^=12138;
+//            }
+//            if(!keyItem.bUseKey)   //许可没有启用
+//                bKeyOk=true;
+//            else
+//            {
+//                //许可要大于当前时间，并在许可范围之内，把当前时间写入许可文件
+//               if(iCurTime>=keyItem.iLastTime && iCurTime<=keyItem.iEndTime)
+//               {
+//                   bKeyOk=true;
+//                   keyItem.iLastTime=iCurTime;
+//                   for(int i=0;i<sz;i++)
+//                   {
+//                       *(pKey+i)^=12138;
+//                       *(pKey+i)-=5;
+//                   }
+//                   fs.seek(0);
+//                   fs.write((char*)&keyItem,sz);  //更新许可文件
+//                   fs.flush();
+//               }
+//            }
+//        }
+//        fs.close();
+//    }
+//    if(!bKeyOk)
+//    {
+//        myHelper::ShowMessageBoxInfo("软件已过期");
+//        exit(0);
+//    }
 
     ui->setupUi(this);
 
@@ -739,8 +739,8 @@ void frmMain::UpdateFlightMode(int mode)
         this->m_datapview->btn_changeAlt->setEnabled(true);
         this->m_datapview->btn_changeYaw->setEnabled(true);
         this->m_datapview->btn_follow->setEnabled(true);
-        this->m_datapview->btn_electirc->setEnabled(true);
-        this->m_datapview->btn_electirc_close->setEnabled(true);
+        //this->m_datapview->btn_electirc->setEnabled(true);
+        //this->m_datapview->btn_electirc_close->setEnabled(true);
 
 
         this->m_datapview->btn_land->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
@@ -769,13 +769,13 @@ void frmMain::UpdateFlightMode(int mode)
                                                                     background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
                                                                     stop:0 rgba(225, 225, 225, 255),\
                                                                     stop:1 rgba(185, 185, 185, 255));"));
-        this->m_datapview->btn_electirc->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+        //this->m_datapview->btn_electirc->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                                      font: 14pt \"黑体\";\
                                                                      border-radius:8px;\
                                                                      background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
                                                                      stop:0 rgba(225, 225, 225, 255),\
                                                                      stop:1 rgba(185, 185, 185, 255));"));
-        this->m_datapview->btn_electirc_close->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+        //this->m_datapview->btn_electirc_close->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                                      font: 14pt \"黑体\";\
                                                                      border-radius:8px;\
                                                                      background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\

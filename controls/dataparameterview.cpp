@@ -32,9 +32,9 @@ DataParameterView::DataParameterView(QWidget *parent) :
 
     btn_land = ui->btn_land;
     btn_follow = ui->btn_follow;
-    btn_stick =ui->btn_stick;
-    btn_electirc = ui->btn_electric;
-    btn_electirc_close=ui->btn_electric_close;
+    //btn_stick =ui->btn_stick;
+    //btn_electirc = ui->btn_electric;
+    //btn_electirc_close=ui->btn_electric_close;
 
     reSetupUi(this);
     m_current_alt=0;
@@ -48,10 +48,10 @@ DataParameterView::DataParameterView(QWidget *parent) :
     btn_changeAlt->setEnabled(false);
     btn_changeYaw->setEnabled(false);
     btn_follow->setEnabled(false);
-    btn_stick->setEnabled(false);
+    //btn_stick->setEnabled(false);
 	ui->btn_info->setEnabled(false);
-    ui->btn_electric->setEnabled(false);
-    ui->btn_electric_close->setEnabled(false);
+    //ui->btn_electric->setEnabled(false);
+    //ui->btn_electric_close->setEnabled(false);
 
     btn_takeoffOnekey->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                     font: 14pt \"黑体\";\
@@ -86,7 +86,7 @@ DataParameterView::DataParameterView(QWidget *parent) :
                                              background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
                                              stop:0 rgba(185, 185, 185, 255),\
                                              stop:1 rgba(135, 135, 135, 255));"));
-    btn_stick->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+    //btn_stick->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                              font: 14pt \"黑体\";\
                                              border-radius:8px;\
                                              background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
@@ -98,13 +98,13 @@ DataParameterView::DataParameterView(QWidget *parent) :
 												background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
 												stop:0 rgba(185, 185, 185, 255),\
 												stop:1 rgba(135, 135, 135, 255));"));
-    btn_electirc->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+    //btn_electirc->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                             font: 14pt \"黑体\";\
                                             border-radius:8px;\
                                             background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
                                             stop:0 rgba(185, 185, 185, 255),\
                                             stop:1 rgba(135, 135, 135, 255));"));
-    btn_electirc_close->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+    //btn_electirc_close->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                             font: 14pt \"黑体\";\
                                             border-radius:8px;\
                                             background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
@@ -134,8 +134,8 @@ DataParameterView::DataParameterView(QWidget *parent) :
 
 DataParameterView::~DataParameterView()
 {
-    if(btn_stick->text()==QStringLiteral("关闭摇杆"))
-        on_btn_stick_clicked();
+//    if(btn_stick->text()==QStringLiteral("关闭摇杆"))
+//        on_btn_stick_clicked();
 }
 
 void DataParameterView::update(VehicleState& data)
@@ -254,8 +254,8 @@ void DataParameterView::reSetupUi(QWidget *DataParameterView)
     connect(btn_changeYaw, SIGNAL(clicked()), this, SLOT(on_btn_changeYaw_clicked())); //event change alt
     disconnect(btn_follow, SIGNAL(clicked()), this, SLOT(on_btn_follow_clicked()));
     connect(btn_follow, SIGNAL(clicked()), this, SLOT(on_btn_follow_clicked())); //event change alt
-    disconnect(btn_stick, SIGNAL(clicked()), this, SLOT(on_btn_stick_clicked()));
-    connect(btn_stick, SIGNAL(clicked()), this, SLOT(on_btn_stick_clicked())); //event change alt
+    //disconnect(btn_stick, SIGNAL(clicked()), this, SLOT(on_btn_stick_clicked()));
+    //connect(btn_stick, SIGNAL(clicked()), this, SLOT(on_btn_stick_clicked())); //event change alt
 
 } // setupUi
 
@@ -456,8 +456,8 @@ QString DataParameterView::GetLabHtmlStr(const QString &pig, const QString &name
 															 background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
 															 stop:0 rgba(225, 225, 225, 255),\
 															 stop:1 rgba(185, 185, 185, 255));"));
-            btn_stick->setEnabled(true);
-            btn_stick->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+            //btn_stick->setEnabled(true);
+            //btn_stick->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                              font: 14pt \"黑体\";\
                                                              border-top-left-radius:8px;\
                                                              border-bottom-left-radius:8px;\
@@ -498,9 +498,9 @@ QString DataParameterView::GetLabHtmlStr(const QString &pig, const QString &name
           btn_changeAlt->setEnabled(false);
           btn_changeYaw->setEnabled(false);
           btn_follow->setEnabled(false);
-          btn_stick->setEnabled(false);
+          //btn_stick->setEnabled(false);
 		  ui->btn_info->setEnabled(true);
-          ui->btn_electric->setEnabled(false);
+          //ui->btn_electric->setEnabled(false);
 
           btn_takeoffOnekey->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                           font: 14pt \"黑体\";\
@@ -541,19 +541,19 @@ QString DataParameterView::GetLabHtmlStr(const QString &pig, const QString &name
 													  background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
 													  stop:0 rgba(185, 185, 185, 255),\
 													  stop:1 rgba(135, 135, 135, 255));"));
-          btn_stick->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+          //btn_stick->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                       font: 14pt \"黑体\";\
                                                       border-radius:8px;\
                                                       background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
                                                       stop:0 rgba(185, 185, 185, 255),\
                                                       stop:1 rgba(135, 135, 135, 255));"));
-          btn_electirc->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+          //btn_electirc->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                       font: 14pt \"黑体\";\
                                                       border-radius:8px;\
                                                       background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
                                                       stop:0 rgba(185, 185, 185, 255),\
                                                       stop:1 rgba(135, 135, 135, 255));"));
-          btn_electirc_close->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
+          //btn_electirc_close->setStyleSheet(QStringLiteral("color:rgb(0, 0, 0);\
                                                       font: 14pt \"黑体\";\
                                                       border-radius:8px;\
                                                       background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,\
@@ -685,13 +685,13 @@ QString DataParameterView::GetLabHtmlStr(const QString &pig, const QString &name
 
       if(bjs)
       {
-          btn_stick->setText(QStringLiteral("关闭摇杆"));
+          //btn_stick->setText(QStringLiteral("关闭摇杆"));
           label_RemoteController->setText(GetLabHtmlStr("RemoteController.png",QStringLiteral("遥杆")));
       }
       else
       {
         label_RemoteController->setText(GetLabHtmlStr("RemoteController.png",QStringLiteral("遥控器")));
-        btn_stick->setText(QStringLiteral("开启摇杆"));
+        //btn_stick->setText(QStringLiteral("开启摇杆"));
       }
  }
 
@@ -784,20 +784,20 @@ void DataParameterView::on_btn_info_clicked()
 
 void DataParameterView::on_btn_stick_clicked()
 {
-    if(btn_stick->text()==QStringLiteral("开启摇杆"))
-    {
-        if(myHelper::ShowMessageBoxQuesion("开启前确保飞机在地面且摇杆油门最小")!=1)
-            return;
-        //btn_stick->setText(QStringLiteral("关闭摇杆"));
-        FrmMainController::Instance()->setRCType(1);
-    }
-    else
-    {
-        if(myHelper::ShowMessageBoxQuesion("关闭前确认遥控器且油门在中位")!=1)
-            return;
-        //btn_stick->setText(QStringLiteral("开启摇杆"));
-        FrmMainController::Instance()->setRCType(0);
-    }
+//    if(btn_stick->text()==QStringLiteral("开启摇杆"))
+//    {
+//        if(myHelper::ShowMessageBoxQuesion("开启前确保飞机在地面且摇杆油门最小")!=1)
+//            return;
+//        //btn_stick->setText(QStringLiteral("关闭摇杆"));
+//        FrmMainController::Instance()->setRCType(1);
+//    }
+//    else
+//    {
+//        if(myHelper::ShowMessageBoxQuesion("关闭前确认遥控器且油门在中位")!=1)
+//            return;
+//        //btn_stick->setText(QStringLiteral("开启摇杆"));
+//        FrmMainController::Instance()->setRCType(0);
+//    }
 }
 
 

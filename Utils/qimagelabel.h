@@ -21,6 +21,9 @@ public:
     void setLabelText(QString strText);
 
     void setText(QString strText);
+    inline void setTextColor(const QRgb& color){
+        m_pen.setColor(color);
+    }
 
 protected:
     void paintEvent(QPaintEvent *event);

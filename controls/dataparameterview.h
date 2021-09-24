@@ -87,9 +87,9 @@ public:
 
      QPushButton *btn_land;
      QPushButton *btn_follow;
-     QPushButton *btn_stick;
-     QPushButton *btn_electirc;//电源按钮
-     QPushButton *btn_electirc_close;//电源按钮
+     //QPushButton *btn_stick;
+     //QPushButton *btn_electirc;//电源按钮
+     //QPushButton *btn_electirc_close;//电源按钮
 
      float m_current_alt;
      QTimer* m_timer;

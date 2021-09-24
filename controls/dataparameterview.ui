@@ -1275,54 +1275,6 @@ border-radius:8px;</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_electric">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>9999</width>
-         <height>9999</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color:rgb(0, 0, 0);
-font: 14pt &quot;黑体&quot;;
-background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,
-stop:0 rgba(225, 225, 225, 255),
-stop:1 rgba(185, 185, 185, 255));
-border-radius:8px;</string>
-       </property>
-       <property name="text">
-        <string>开启电源</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_electric_close">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color:rgb(0, 0, 0);
-font: 14pt &quot;黑体&quot;;
-background-color: qlineargradient(spread:pad, x1:0.522124, y1:0, x2:0.506, y2:1,
-stop:0 rgba(225, 225, 225, 255),
-stop:1 rgba(185, 185, 185, 255));
-border-radius:8px;</string>
-       </property>
-       <property name="text">
-        <string>关闭电源</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="btn_follow">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -1355,31 +1307,6 @@ border-radius:8px;</string>
        </property>
        <property name="text">
         <string>跟随</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_stick">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>9999</width>
-         <height>9999</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>黑体</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>开启摇杆</string>
        </property>
       </widget>
      </item>
