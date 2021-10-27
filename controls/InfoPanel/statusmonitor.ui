@@ -1923,7 +1923,7 @@ color: rgb(233, 233, 233);
 background-color: rgb(125, 125, 125);</string>
                </property>
                <property name="text">
-                <string>单次飞行时长</string>
+                <string>总飞行时长</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>

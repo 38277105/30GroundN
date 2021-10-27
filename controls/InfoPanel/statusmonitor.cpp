@@ -120,8 +120,8 @@ void StatusMonitor::setMonitor()
 
     tmpConfig.minValue = 43;//3.8*m_bakVolt_coefficient;
     tmpConfig.maxValue = 62;
-    tmpConfig.alarmOffset = 2;
-    tmpConfig.warnOffset = 1;
+    tmpConfig.alarmOffset = 2.5;
+    tmpConfig.warnOffset = 1.5;
     m_PA_bakVolt.setAlarmConfig(tmpConfig,ui->lbl_bakVolt_desc);
     tmpConfig.alarmOffset = 0;
     tmpConfig.warnOffset = 0;

@@ -129,7 +129,7 @@ DataParameterView::DataParameterView(QWidget *parent) :
     this->ui->label_4->setFontSize(14);
     this->ui->label_4->setLabelText(QStringLiteral("米"));
 
-    btn_follow->hide();//隐藏跟随按钮
+    //btn_follow->hide();//隐藏跟随按钮
 }
 
 DataParameterView::~DataParameterView()
@@ -355,11 +355,11 @@ QString DataParameterView::GetLabHtmlStr(const QString &pig, const QString &name
 
       float height=  le_alt->text().toFloat();
 
-//      if(height < 5.0 || height > 300.0)
-//      {
-//          myHelper::ShowMessageBoxError("飞机高度请设置在5-300米之间");
-//          return;
-//      }
+      if(height < 5.0 || height > 300.0)
+      {
+          myHelper::ShowMessageBoxError("改变高度请设置在5-300米之间");
+          return;
+      }
       //OneKeyTakeOFF(height);
       ChangeAlt(height);
   }
@@ -378,11 +378,11 @@ QString DataParameterView::GetLabHtmlStr(const QString &pig, const QString &name
        }
         float yaw=  le_yaw->text().toFloat();
 
-//        if(yaw < 0.0 || yaw > 360.0)
-//        {
-//            myHelper::ShowMessageBoxError("改变航向角度请设置在0-360度之间");
-//            return;
-//        }
+        if(yaw < 0.0 || yaw > 360.0)
+        {
+            myHelper::ShowMessageBoxError("改变航向角度请设置在0-360度之间");
+            return;
+        }
         ChangeYAW(yaw);
   }
 

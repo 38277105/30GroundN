@@ -30,7 +30,7 @@ int     ZYGroundGlobalConfig::m_EleDebugRemainTime = 200;
 int     ZYGroundGlobalConfig::m_BatteryRemainTime = 0;
 int     ZYGroundGlobalConfig::m_MotorRemainTime = 200;
 float   ZYGroundGlobalConfig::m_YawAngle = 0;
-int     ZYGroundGlobalConfig::m_flytime = 500*60;
+int     ZYGroundGlobalConfig::m_flytime = 0;//500*60;
 bool   g_bWriteLog=true;
 bool   g_bDevelopMode=true;
 QTimer*   g_FlushFileTimer;
